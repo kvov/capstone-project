@@ -27,7 +27,6 @@ class KidAdd extends Component {
   }
 
   async handleKidSave() {
-    
     const { username, kidName, kidNick, kidDob, kidPass } = this.state;
 
     if (kidName && kidPass) {
@@ -38,7 +37,16 @@ class KidAdd extends Component {
           nickname: kidNick,
           dateOfBirth: kidDob,
           password: kidPass,
+          parent: localStorage.id,
         });
+        notification.success({
+          message: "Success",
+          title: "Success",
+        });
+        setTimeout(() => {
+          this.props.history.replace("kids");
+        }, 2000);
+
         console.log("result:" + result);
       } catch (e) {
         notification.error({
@@ -52,7 +60,6 @@ class KidAdd extends Component {
         title: "Error",
       });
     }
-
   }
 
   render() {
@@ -66,7 +73,7 @@ class KidAdd extends Component {
           <label className="style_title_bar_center_title">{username}</label>
           <label className="kid_list_add"></label>
         </div>
-        <div class="kid_list_top_text">Add a Kid</div>
+        <div className="kid_list_top_text">Add a Kid</div>
         <div className="kid_add_form">
           <div>
             <input
@@ -121,7 +128,7 @@ class KidAdd extends Component {
               Save
             </button>
             <button
-            className="kid_add_cancel style_common_button style_common_button_blue"
+              className="kid_add_cancel style_common_button style_common_button_blue"
               onClick={() => this.cancelKidAdd()}
             >
               Cancel

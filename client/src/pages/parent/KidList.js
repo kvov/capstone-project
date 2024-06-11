@@ -29,7 +29,7 @@ class KidList extends Component {
     console.log("load data");
     try {
       let result = await axios.get("/api/kids");
-      console.log("result: " + JSON.stringify(result));
+      // console.log("result: " + JSON.stringify(result));
       this.setState({
         kids: result.data.data,
       });
@@ -61,26 +61,30 @@ class KidList extends Component {
             Add Kid
           </Link>
         </div>
-        <div class="kid_list_top_text">Manage Your Kids</div>
+        <div className="kid_list_top_text">Manage Your Kids</div>
 
-        {/* kid item view */}
-        <div className="kid_list_item">
-          <img
-            src={profile}
-            alt=""
-            className="kid_list_photo"
-            style={{ height: 100, width: 100 }}
-          />
-          <label class="kid_list_top_text kid_list_item_center ">
-            Kid Name
-          </label>
-          <label class="kid_list_top_text kid_list_item_center ">0 Coins</label>
-          <button onClick={() => this.showKidDetails()}>Details</button>
-        </div>
+        {kids.map((kid) => (
+          <div className="kid_list_item">
+            <img
+              src={profile}
+              alt=""
+              className="kid_list_photo"
+              style={{ height: 100, width: 100 }}
+            />
+            <label className="kid_list_top_text kid_list_item_center ">
+              {/* Kid Name */}
+              {kid.username}
+            </label>
+            <label className="kid_list_top_text kid_list_item_center ">
+              0 Coins
+            </label>
+            <button onClick={() => this.showKidDetails()}>Details</button>
+          </div>
+        ))}
 
-        {kids.map((item, index) => {
+        {/* {kids.map((item, index) => {
           <></>;
-        })}
+        })} */}
       </div>
     );
   }

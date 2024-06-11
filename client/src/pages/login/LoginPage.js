@@ -71,14 +71,17 @@ class LoginPage extends Component {
     const { username, password } = this.state;
     if (username && password) {
       try {
-        await axios.post("/api/login", {
+        const { data } = await axios.post("/api/login", {
           username: username,
           password: password,
         });
+        const { id, role } = data.data;
 
         let localStorage = window.localStorage;
         localStorage.username = username;
         localStorage.islogin = "1";
+        localStorage.role = role;
+        localStorage.id = id;
 
         this.props.history.replace("/");
       } catch (e) {

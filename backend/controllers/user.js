@@ -48,15 +48,17 @@ const login = async (req, res) => {
   try {
     const { username, password } = req.body;
     let object = null;
+    let role = "parent";
     object = await parentModel.findOne({ username });
     if (!object) {
       object = await kidModel.findOne({ username });
+      role = "kid";
     }
     if (object) {
       const same = await bcrypt.compare(password, object.password);
       if (same) {
         req.session.userId = object.id;
-        res.status(200).send({ data: { username } });
+        res.status(200).send({ data: { username, id: object.id, role } });
       } else {
         throw new Error("Wrong password");
       }
