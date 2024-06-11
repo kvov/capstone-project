@@ -40,6 +40,29 @@ class UserPage extends Component {
           </p>
           <br />
         </div>
+
+        <div className="user-profile-page__buttons">
+          <button
+            className="style_common_button style_common_button_green"
+            type="submit"
+          >
+            <Link to="/wishlist">See Wishes</Link>
+          </button>
+          <br></br>
+          <button
+            className="style_common_button user-page-button__task"
+            type="submit"
+          >
+            <Link to="/tasklist">Add Tasks</Link>
+          </button>
+          <br></br>
+          <button
+            className="style_common_button style_common_button_blue"
+            type="submit"
+          >
+            <Link to="/kids">Kid List</Link>
+          </button>
+        </div>
       </div>
     );
   }

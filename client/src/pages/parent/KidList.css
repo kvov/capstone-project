@@ -1,0 +1,48 @@
+.style__back_arrow {
+  margin: auto;
+  width: 80px;
+}
+.kid_list_add {
+  color: white;
+  font-size: 20px;
+  text-align: right;
+  width: 80px;
+  margin: auto;
+}
+.kid_list_top_text {
+  color: #624dd6;
+  font-weight: 800;
+  font-size: 18px;
+  margin: 10px 0 20px 0;
+}
+.style_title_bar {
+  display: flex;
+  background-color: #624dd6;
+  padding: 10px;
+  overflow: hidden;
+  width: 100vw;
+}
+.style_title_bar_center_title {
+  color: #fce23c;
+  flex: 1;
+  font-size: 30px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-align: center;
+}
+.kid_list_item {
+  background-color: #f1f1f1;
+  padding: 10px;
+  margin: 5px;
+}
+.kid_list_photo {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: white;
+  text-align: center;
+  overflow: hidden;
+}
+.kid_list_item_center {
+  margin: 10px;
+}

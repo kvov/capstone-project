@@ -1,0 +1,39 @@
+.kid_add_form {
+  margin: 10px;
+  padding: 10px 0;
+  border-radius: 16px;
+  background-color: #f1f1f1;
+}
+
+.kid_add_item {
+    height: 40px;
+    width: 200px;
+    margin: 10px 0;
+    color: #624dd6;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 20px;
+    text-align: center;
+    outline: none;
+    border: none;
+  }
+
+.kid_add_item__dob {
+    padding: 0 30px;
+}
+
+.kid_add_buttons {
+    display: flex;
+    width: 200px;
+    margin: auto;
+}
+.kid_add_save {
+    flex: 1;
+    margin-right: 10px;
+}
+.kid_add_cancel {
+    flex: 1;
+}
+.user-page-button__wish a {
+    color: #FCE23C;
+}
