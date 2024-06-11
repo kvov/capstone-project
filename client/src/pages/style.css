@@ -1,0 +1,27 @@
+
+.style_common_button {
+    width: 200px;
+    height: 50px;
+    border-radius: 30px;
+    border: none;
+    font-weight: 600;
+    font-size: 22px;
+    margin-top: 20px;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+}
+.style_common_button_green {
+    background-color: #62c052;
+    color: #FCE23C;
+}
+.style_common_button_green a {
+    color: #FCE23C;
+}
+.style_common_button_blue {
+    background-color: #4D9CD6;
+    color: #FCE23C;
+}
+.style_common_button_blue a {
+    color: #FCE23C;
+}

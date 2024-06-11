@@ -1,0 +1,59 @@
+.signup-content {
+  background-color: #fce23c;
+  width: 100vw;
+  height: 100vh;
+}
+.signup__form {
+  background-color: #624dd6;
+  padding: auto;
+  overflow: hidden;
+  width: 100vw;
+  height: 365px;
+  border-radius: 0 0 50% 50%;
+  background-image: linear-gradient(-180deg, #624dd6 0%, #624dd6 100%);
+}
+.signup__item {
+  width: 200px;
+  height: 40px;
+  margin-top: 50px;
+  background-color: #fce23c;
+  color: #624dd6;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 20px;
+  text-align: center;
+  outline: none;
+  border: none;
+}
+.signup_button {
+  width: 200px;
+  height: 40px;
+  margin-top: 50px;
+  margin-bottom: 20px;
+  background-color: #62c052;
+  color: #fce23c;
+  font-weight: 500;
+  font-size: 20px;
+  border-radius: 20px;
+  border: none;
+  text-align: center;
+  outline: none;
+  background-image: linear-gradient(-180deg, #62c052 0%, #62c052 100%);
+}
+.signup__login {
+    color: white;
+    list-style: none;
+}
+.slogan {
+  top: 500px;
+  position: absolute;
+  left: 50%;
+  font-family: "LuckiestGuy";
+  color: #624dd6;
+  font-size: 40px;
+  transform: translate(-50%, 0);
+}
+@font-face {
+  font-family: "LuckiestGuy";
+  src: url("/public/LuckiestGuy-Regular.ttf");
+}

@@ -49,7 +49,7 @@ const login = async (req, res) => {
     const { username, password } = req.body;
     let object = null;
     object = await parentModel.findOne({ username });
-    if (object) {
+    if (!object) {
       object = await kidModel.findOne({ username });
     }
     if (object) {
