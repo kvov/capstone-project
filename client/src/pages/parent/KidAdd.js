@@ -19,6 +19,10 @@ class KidAdd extends Component {
     let localStorage = window.localStorage;
     this.state = {
       username: localStorage.username,
+      kidName: "",
+      kidNick: "",
+      kidDob: "",
+      kidPass: "",
     };
   }
 
@@ -26,7 +30,55 @@ class KidAdd extends Component {
     this.props.history.replace("/kids");
   }
 
+  // Method to validate inputs
+  validateInputs() {
+    const { kidName, kidNick, kidDob } = this.state;
+    const nameRegex = /^[A-Za-z]+$/; 
+
+    if (!nameRegex.test(kidName)) {
+      notification.error({
+        message: "Kid's username must contain only letters",
+        title: "Error",
+      });
+      return false;
+    }
+
+    if (!nameRegex.test(kidNick)) {
+      notification.error({
+        message: "Kid's nickname must contain only letters",
+        title: "Error",
+      });
+      return false;
+    }
+
+    const selectedDate = new Date(kidDob);
+    const today = new Date();
+    if (selectedDate >= today) {
+      notification.error({
+        message: "Date of birth must be in the past",
+        title: "Error",
+      });
+      return false;
+    }
+
+    const eighteenYearsAgo = new Date();
+    eighteenYearsAgo.setFullYear(today.getFullYear() - 18);
+    if (selectedDate <= eighteenYearsAgo) {
+      notification.error({
+        message: "Child cannot be more than 18 years old",
+        title: "Error",
+      });
+      return false;
+    }
+
+    return true;
+  }
+
   async handleKidSave() {
+    if (!this.validateInputs()) { 
+      return;
+    }
+
     const { username, kidName, kidNick, kidDob, kidPass } = this.state;
 
     if (kidName && kidPass) {
@@ -103,6 +155,7 @@ class KidAdd extends Component {
               type="date"
               className="kid_add_item kid_add_item__dob"
               placeholder="Your kid's date of birth"
+              max={new Date().toISOString().split("T")[0]} // Set max date to today
               onChange={(e) => {
                 this.setState({ kidDob: e.target.value });
               }}
