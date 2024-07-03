@@ -1,5 +1,6 @@
 const parentModel = require("../models/parent");
 const kidModel = require("../models/kid");
+const taskModel = require("../models/task");
 
 const bcrypt = require("bcrypt");
 
@@ -79,10 +80,73 @@ const logout = async (req, res) => {
   }
 };
 
+const saveTask = async (req, res) => {
+  try {
+    const { parent, kid, taskDescription, taskCost, dueDate } = req.body;
+
+    // Validate required fields
+    if (!taskDescription || !taskCost || !dueDate || !kid) {
+      throw new Error("All fields are required");
+    }
+
+    // Validate taskCost
+    if (isNaN(taskCost) || taskCost <= 0) {
+      throw new Error("Task cost must be a positive number");
+    }
+
+    // Validate dueDate
+    const selectedDate = new Date(dueDate);
+    const today = new Date();
+    if (selectedDate <= today) {
+      throw new Error("Due date must be in the future");
+    }
+
+    // Validate parent
+    const parentDoc = await parentModel.findById(parent);
+    if (!parentDoc) {
+      throw new Error("Not a valid parent");
+    }
+
+    // Validate kid
+    const kidDoc = await kidModel.findById(kid);
+    if (!kidDoc || kidDoc.parent.toString() !== parentDoc.id.toString()) {
+      throw new Error("Not a valid kid");
+    }
+
+    // Create the task
+    const task = await taskModel.create({ parent, kid, taskDescription, taskCost, dueDate });
+    res.status(200).send({ data: task });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+
+const getTasks = async (req, res) => {
+  try {
+    const parentId = req.session.userId;
+    const tasks = await taskModel.find({ parent: parentId }).populate("kid");
+
+    // Format the dueDate to remove time part
+    const formattedTasks = tasks.map(task => {
+      return {
+        ...task._doc,
+        dueDate: task.dueDate.toISOString().split('T')[0]
+      };
+    });
+
+    res.status(200).send({ data: formattedTasks });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+
 module.exports = {
   "[POST] /login": login,
   "[POST] /signup": saveParent,
   "[POST] /kid": saveKid,
   "[GET] /kids": getKids,
+  "[POST] /task": saveTask,
+  "[GET] /tasks": getTasks,
   "[GET] /logout": logout,
 };
+

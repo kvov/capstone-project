@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+.task__back_arrow {
+    margin: auto;
+    width: 40px;
+}
+
+.task_title_bar {
+    display: flex;
+    background-color: #624dd6;
+    padding: 10px;
+    overflow: hidden;
+    width: 100vw;
+}
+.task_title_bar_center_title {
+    color: #fce23c;
+    flex: 1;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+}
+.task-page {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    overflow: hidden;
+}
+.task-page__title {
+    color: #624DD6;
+    margin-top: 10px;
+    font-family: 'Nunito';
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-align: center; 
+}
+
+.task-page__add-task-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.task-page__add-task-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 240px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    background-color: #FCE23C;
+    color: #624DD6;
+    font-family: 'Nunito';
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+    background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
+    box-shadow: 0 0.5rem 0.75rem 0 rgba(140, 143, 104, 0.3), 0 -0.1rem 0.5rem 
+                                #FCE23C inset, 0 0.5rem 0.25rem 
+                                 rgba(255,255,255, 0.2) inset, 0 0.1rem 0.25rem 0 
+                                 #f3f2eb inset;
+}
+
+.task-page__task-list-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    max-height: 70vh;
+    padding: 10px;
+    padding-top: 60px;
+}
+
+.task-page__task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 0;
+    justify-content: center;
+}
+
+.task-card {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    padding: 16px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.task-card__content {
+    margin-bottom: 16px;
+}
+
+.task-card__description {
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 20px;
+    color: #624DD6;
+    margin: 0 0 8px;
+}
+
+.task-card__details {
+    font-family: 'Nunito';
+    font-weight: 400;
+    font-size: 16px;
+    color: #333333;
+    margin: 0;
+}
+
+.task-card__actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.task-item__remove-from-list,
+.task-item__execute-task-btn,
+.task-item__lose-task-btn {
+    background-color: white;
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.task-remove-btn__image,
+.execute-task-btn__image,
+.lose-task-btn__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

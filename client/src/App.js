@@ -5,6 +5,8 @@ import SignUpPage from "./pages/signup/SignUpPage";
 import UserPage from "./pages/parent/UserPage";
 import KidList from "./pages/parent/KidList";
 import KidAdd from "./pages/parent/KidAdd";
+import TaskList from "./pages/parent/TaskList";
+import TaskAdd from "./pages/parent/TaskAdd";
 import "./App.css";
 import "antd/dist/antd.css";
 
@@ -17,6 +19,8 @@ class App extends React.Component {
         <Route path="/login" exact component={LoginPage} />
         <Route path="/kids" exact component={KidList} />
         <Route path="/kidsAdd" exact component={KidAdd} />
+        <Route path="/tasks" exact component={TaskList} />
+        <Route path="/taskAdd" exact component={TaskAdd} />
       </div>
     );
   }
