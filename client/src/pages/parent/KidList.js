@@ -52,16 +52,22 @@ class KidList extends Component {
     const { username, kids } = this.state;
     return (
       <div>
-        <div className="style_title_bar">
-          <Link to="/" className="style__back_arrow">
+        <div className="kid-list_title_bar">
+          <Link to="/" className="kid-list__back_arrow">
             <img src={leftArrow} alt="" />
           </Link>
-          <label className="style_title_bar_center_title">{username}</label>
-          <Link to="/kidsAdd" className="kid_list_add">
+          <label className="kid-list_title_bar_center_title">{username}</label>
+          {/* <Link to="/kidsAdd" className="kid_list_add">
+            Add Kid
+          </Link> */}
+        </div>
+        <div className="kid-list__title">Manage Kids</div>
+
+        <div className="kid-add-button-div">
+          <Link to="/kidsAdd" className="kid-add-button">
             Add Kid
           </Link>
         </div>
-        <div className="kid_list_top_text">Manage Your Kids</div>
 
         {kids.map((kid) => (
           <div className="kid_list_item">
@@ -69,7 +75,7 @@ class KidList extends Component {
               src={profile}
               alt=""
               className="kid_list_photo"
-              style={{ height: 100, width: 100 }}
+              style={{ height: 50, width: 50 }}
             />
             <label className="kid_list_top_text kid_list_item_center ">
               {/* Kid Name */}
@@ -78,7 +84,7 @@ class KidList extends Component {
             <label className="kid_list_top_text kid_list_item_center ">
               0 Coins
             </label>
-            <button onClick={() => this.showKidDetails()}>Details</button>
+            <button className="kid-details-button" onClick={() => this.showKidDetails()}>Details</button>
           </div>
         ))}
 

@@ -28,6 +28,10 @@ class UserPage extends Component {
       title: "",
     });
   }
+  logout() {
+    localStorage.clear();
+    this.props.history.replace("/login");
+  }
 
   render() {
     const { username, photo, role } = this.state;
@@ -61,7 +65,7 @@ class UserPage extends Component {
             </button>
             <br></br>
             <button
-              className="style_common_button user-page-button__task"
+              className="style_common_button style_common_button_blue"
               type="submit"
             >
               <Link to="/kidTasks">Tasks</Link>
@@ -78,7 +82,7 @@ class UserPage extends Component {
             </button>
             <br></br>
             <button
-              className="style_common_button user-page-button__task"
+              className="style_common_button style_common_button_purple"
               type="submit"
             >
               <Link to="/tasks">Add Tasks</Link>

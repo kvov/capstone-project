@@ -4,7 +4,9 @@
     height: 50px;
     border-radius: 30px;
     border: none;
-    font-weight: 600;
+    font-weight: 700;
+    font-family: 'Nunito';
+    letter-spacing: 1.5px; 
     font-size: 22px;
     margin-top: 20px;
     text-align: center;
@@ -14,14 +16,31 @@
 .style_common_button_green {
     background-color: #62c052;
     color: #FCE23C;
+    background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #62C052 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;
 }
-.style_common_button_green a {
-    color: #FCE23C;
-}
+
 .style_common_button_blue {
     background-color: #4D9CD6;
     color: #FCE23C;
+    background-image: linear-gradient(-180deg, #4D9CD6 0%, #4D9CD6 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(9, 76, 131, 0.5), 0 -0.25rem 1.5rem 
+                                #4D9CD6 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(28, 100, 166) inset;
 }
-.style_common_button_blue a {
+.style_common_button_blue a, .style_common_button_purple a, .style_common_button_green a {
     color: #FCE23C;
+}
+.style_common_button_purple {
+    background-color: #624DD6;
+    color: #FCE23C;
+    background-image: linear-gradient(-180deg, #624DD6 0%, #624DD6 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(92, 58, 157, 0.5), 0 -0.25rem 1.5rem 
+                                #624DD6 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(48, 0, 104) inset;
 }

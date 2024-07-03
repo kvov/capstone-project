@@ -118,14 +118,13 @@ class KidAdd extends Component {
     const { username, kidName, kidNick, kidDob, kidPass } = this.state;
     return (
       <div>
-        <div className="style_title_bar">
-          <Link to="/kids" className="style__back_arrow">
+        <div className="kid-add_title_bar">
+          <Link to="/kids" className="kid-add__back_arrow">
             <img src={leftArrow} alt="" />
           </Link>
-          <label className="style_title_bar_center_title">{username}</label>
-          <label className="kid_list_add"></label>
+          <label className="kid-add_title_bar_center_title">{username}</label>
         </div>
-        <div className="kid_list_top_text">Add a Kid</div>
+        <div className="kid-add__title">Add Kid</div>
         <div className="kid_add_form">
           <div>
             <input
