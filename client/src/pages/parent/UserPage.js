@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import '../style.css'
+import "../style.css";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
 import profile from "../../images/user.png";
@@ -18,6 +18,10 @@ class UserPage extends Component {
     this.state = {
       username: localStorage.username,
     };
+  }
+  logout() {
+    localStorage.clear();
+    this.props.history.replace("/login");
   }
 
   render() {
@@ -61,6 +65,13 @@ class UserPage extends Component {
             type="submit"
           >
             <Link to="/kids">Kid List</Link>
+          </button>
+          <br></br>
+          <button
+            className="style_common_button style_common_button_purple"
+            onClick={() => this.logout()}
+          >
+            Log out
           </button>
         </div>
       </div>
