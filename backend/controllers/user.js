@@ -114,7 +114,13 @@ const saveTask = async (req, res) => {
     }
 
     // Create the task
-    const task = await taskModel.create({ parent, kid, taskDescription, taskCost, dueDate });
+    const task = await taskModel.create({
+      parent,
+      kid,
+      taskDescription,
+      taskCost,
+      dueDate,
+    });
     res.status(200).send({ data: task });
   } catch (e) {
     res.status(400).send({ msg: e.message });
@@ -127,10 +133,10 @@ const getTasks = async (req, res) => {
     const tasks = await taskModel.find({ parent: parentId }).populate("kid");
 
     // Format the dueDate to remove time part
-    const formattedTasks = tasks.map(task => {
+    const formattedTasks = tasks.map((task) => {
       return {
         ...task._doc,
-        dueDate: task.dueDate.toISOString().split('T')[0]
+        dueDate: task.dueDate.toISOString().split("T")[0],
       };
     });
 
@@ -142,15 +148,15 @@ const getTasks = async (req, res) => {
 
 const getKidTasks = async (req, res) => {
   try {
-    const parentId = req.session.userId;
+    // const parentId = req.session.userId;
     const kidId = req.params.id;
-    const tasks = await taskModel.find({ parent: parentId, kid: kidId }).populate("kid");
+    const tasks = await taskModel.find({ kid: kidId }).populate("kid");
 
     // Format the dueDate to remove time part
-    const formattedTasks = tasks.map(task => {
+    const formattedTasks = tasks.map((task) => {
       return {
         ...task._doc,
-        dueDate: task.dueDate.toISOString().split('T')[0]
+        dueDate: task.dueDate.toISOString().split("T")[0],
       };
     });
 
@@ -158,7 +164,7 @@ const getKidTasks = async (req, res) => {
   } catch (e) {
     res.status(400).send({ msg: e.message });
   }
-}
+};
 
 const deleteTask = async (req, res) => {
   try {
@@ -194,4 +200,3 @@ module.exports = {
   "[DELETE] /task/:id": deleteTask,
   "[GET] /logout": logout,
 };
-

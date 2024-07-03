@@ -71,6 +71,14 @@ class UserPage extends Component {
               <Link to="/kidTasks">Tasks</Link>
             </button>
             <br></br>
+            <button
+              className="style_common_button style_common_button_purple"
+              onClick={() => {
+                this.logout();
+              }}
+            >
+              <Link to="/kids">Log out</Link>
+            </button>
           </div>
         ) : (
           <div className="user-profile-page__buttons">
@@ -93,6 +101,15 @@ class UserPage extends Component {
               type="submit"
             >
               <Link to="/kids">Kid List</Link>
+            </button>
+            <br></br>
+            <button
+              className="style_common_button style_common_button_purple"
+              onClick={() => {
+                this.logout();
+              }}
+            >
+              <Link to="/kids">Log out</Link>
             </button>
           </div>
         )}
