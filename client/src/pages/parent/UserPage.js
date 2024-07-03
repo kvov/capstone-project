@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import '../style.css'
+import "../style.css";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
 import profile from "../../images/user.png";
+import { notification } from "antd";
 
 class UserPage extends Component {
   componentDidMount() {
@@ -17,11 +18,19 @@ class UserPage extends Component {
     let localStorage = window.localStorage;
     this.state = {
       username: localStorage.username,
+      role: localStorage.role,
     };
   }
 
+  clickWishes() {
+    notification.info({
+      message: "Developing...",
+      title: "",
+    });
+  }
+
   render() {
-    const { username, photo } = this.state;
+    const { username, photo, role } = this.state;
     return (
       <div className="user-content">
         <div className="user-data__form">
@@ -41,28 +50,48 @@ class UserPage extends Component {
           <br />
         </div>
 
-        <div className="user-profile-page__buttons">
-          <button
-            className="style_common_button style_common_button_green"
-            type="submit"
-          >
-            <Link to="/wishes">See Wishes</Link>
-          </button>
-          <br></br>
-          <button
-            className="style_common_button user-page-button__task"
-            type="submit"
-          >
-            <Link to="/tasks">Add Tasks</Link>
-          </button>
-          <br></br>
-          <button
-            className="style_common_button style_common_button_blue"
-            type="submit"
-          >
-            <Link to="/kids">Kid List</Link>
-          </button>
-        </div>
+        {role == "kid" ? (
+          <div className="user-profile-page__buttons">
+            <button
+              className="style_common_button style_common_button_green"
+              type="submit"
+            >
+              {/* <Link to="/wishes">Wishes</Link> */}
+              <span onClick={this.clickWishes}>Wishes</span>
+            </button>
+            <br></br>
+            <button
+              className="style_common_button user-page-button__task"
+              type="submit"
+            >
+              <Link to="/kidTasks">Tasks</Link>
+            </button>
+            <br></br>
+          </div>
+        ) : (
+          <div className="user-profile-page__buttons">
+            <button
+              className="style_common_button style_common_button_green"
+              type="submit"
+            >
+              <Link to="/wishes">See Wishes</Link>
+            </button>
+            <br></br>
+            <button
+              className="style_common_button user-page-button__task"
+              type="submit"
+            >
+              <Link to="/tasks">Add Tasks</Link>
+            </button>
+            <br></br>
+            <button
+              className="style_common_button style_common_button_blue"
+              type="submit"
+            >
+              <Link to="/kids">Kid List</Link>
+            </button>
+          </div>
+        )}
       </div>
     );
   }

@@ -140,6 +140,26 @@ const getTasks = async (req, res) => {
   }
 };
 
+const getKidTasks = async (req, res) => {
+  try {
+    const parentId = req.session.userId;
+    const kidId = req.params.id;
+    const tasks = await taskModel.find({ parent: parentId, kid: kidId }).populate("kid");
+
+    // Format the dueDate to remove time part
+    const formattedTasks = tasks.map(task => {
+      return {
+        ...task._doc,
+        dueDate: task.dueDate.toISOString().split('T')[0]
+      };
+    });
+
+    res.status(200).send({ data: formattedTasks });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+}
+
 const deleteTask = async (req, res) => {
   try {
     const taskId = req.params.id;
@@ -170,6 +190,7 @@ module.exports = {
   "[GET] /kids": getKids,
   "[POST] /task": saveTask,
   "[GET] /tasks": getTasks,
+  "[GET] /kidTasks/:id": getKidTasks,
   "[DELETE] /task/:id": deleteTask,
   "[GET] /logout": logout,
 };
