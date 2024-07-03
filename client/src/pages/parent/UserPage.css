@@ -12,7 +12,11 @@
   height: 365px;
   border-radius: 0 0 50% 50%;
   position: relative;
-  background-image: linear-gradient(-180deg, #624dd6 0%, #624dd6 100%);
+  background-image: linear-gradient(-180deg, #624DD6 0%, #624DD6 100%);
+  box-shadow: 0 0.4rem 1rem 0 rgba(22,75,195,0.50), 0 -0.25rem 1.5rem 
+                              rgba(110, 15, 155, 1) inset, 0 0.75rem 0.5rem 
+                              rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                              #624DD6 inset;
 }
 
 .user-profile__photo-wrapper {
@@ -46,9 +50,7 @@
 a {
   text-decoration: none;
 }
-.user-page-button__task {
-    background-color: #624DD6;
-}
+
 .user-page-button__task a {
     color: #FCE23C;
 }

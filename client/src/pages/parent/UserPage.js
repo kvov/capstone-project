@@ -50,7 +50,7 @@ class UserPage extends Component {
           </button>
           <br></br>
           <button
-            className="style_common_button user-page-button__task"
+            className="style_common_button style_common_button_purple"
             type="submit"
           >
             <Link to="/tasks">Add Tasks</Link>

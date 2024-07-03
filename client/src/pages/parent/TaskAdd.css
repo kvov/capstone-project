@@ -18,6 +18,7 @@
     font-weight: 500;
     letter-spacing: 2px;
     text-align: center;
+    padding-right: 40px;
 }
 .task-add-page {
     display: flex;
@@ -64,14 +65,14 @@
     border: none;
     background-color: #62C052;
     letter-spacing: 1.5px;
-    color: #fffffc; 
+    color: #FCE23C; 
     font-family: 'Nunito';
     font-weight: 800;
     font-size: 20px;
     text-align: center;
     outline: none;
     background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
-    box-shadow: 0 1rem 1.25rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #62C052 inset, 0 0.75rem 0.5rem 
                                  rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
                                  rgb(70, 207, 123) inset;  
@@ -92,7 +93,7 @@
     text-align: center;
     outline: none; 
     background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
-    box-shadow: 0 1rem 1.25rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #FCE23C inset, 0 0.75rem 0.5rem 
                                     rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
                                     #fcf9e6 inset; 
