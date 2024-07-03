@@ -140,6 +140,29 @@ const getTasks = async (req, res) => {
   }
 };
 
+const deleteTask = async (req, res) => {
+  try {
+    const taskId = req.params.id;
+
+    // Check if the task exists
+    const task = await taskModel.findById(taskId);
+    if (!task) {
+      throw new Error("Task not found");
+    }
+
+    // Check if the task belongs to the parent making the request
+    if (task.parent.toString() !== req.session.userId) {
+      throw new Error("Not authorized to delete this task");
+    }
+
+    // Delete the task
+    await taskModel.findByIdAndDelete(taskId);
+    res.status(200).send({ msg: "Task deleted successfully" });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+
 module.exports = {
   "[POST] /login": login,
   "[POST] /signup": saveParent,
@@ -147,6 +170,7 @@ module.exports = {
   "[GET] /kids": getKids,
   "[POST] /task": saveTask,
   "[GET] /tasks": getTasks,
+  "[DELETE] /task/:id": deleteTask,
   "[GET] /logout": logout,
 };
 

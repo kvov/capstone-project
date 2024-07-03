@@ -40,6 +40,25 @@ class TaskList extends Component {
     }
   }
 
+  async deleteTask(taskId) {
+    console.log("Deleting task with ID:", taskId);  
+    try {
+      await axios.delete(`/api/task/${taskId}`);
+      notification.success({
+        message: "Task deleted successfully",
+        title: "Success",
+      });
+      this.loadTasks(); 
+    } catch (e) {
+      console.error("Error details:", e);  
+      notification.error({
+        message: e.response ? e.response.data.msg : 'Error deleting task',
+        title: "Error",
+      });
+    }
+  }
+  
+
   showTaskDetails(task) {
     notification.info({
       message: `Task: ${task.taskDescription}, Price: ${task.taskCost}, Due Date: ${new Date(task.dueDate).toISOString().split('T')[0]}, Assigned Kid: ${task.kid.username}`,
@@ -49,6 +68,7 @@ class TaskList extends Component {
 
   render() {
     const { username, tasks } = this.state;
+    console.log(tasks);
     return (
       <div className="task-page">
         <div className="task_title_bar">
@@ -69,7 +89,7 @@ class TaskList extends Component {
         <div className="task-page__task-list-div">
           <div className="task-page__task-list">
             {tasks.map((task) => (
-              <div className="task-card" key={task.id}>
+              <div className="task-card" key={task._id}>
                 <div className="task-card__content">
                   <p className="task-card__description">{task.taskDescription}</p>
                   <p className="task-card__details">
@@ -77,15 +97,24 @@ class TaskList extends Component {
                   </p>
                 </div>
                 <div className="task-card__actions">
-                  <button className="task-item__execute-task-btn" onClick={() => this.executeTask(task)}>
-                    <img src={execute} alt="" className="execute-task-btn__image" />
-                  </button>
-                  <button className="task-item__lose-task-btn" onClick={() => this.loseTask(task)}>
-                    <img src={lose} alt="" className="lose-task-btn__image" />
-                  </button>
-                  <button className="task-item__remove-from-list" onClick={() => this.props.removeTaskFromList(task.id)}>
-                    <img src={removeBtn} alt="" className="task-remove-btn__image" />
-                  </button>
+                  <div className="task-card__action-item">
+                    <button className="task-item__execute-task-btn" onClick={() => this.executeTask(task)}>
+                      <img src={execute} alt="Execute" className="execute-task-btn__image" />
+                    </button>
+                    <span className="task-btn-label">Done</span>
+                  </div>
+                  <div className="task-card__action-item">
+                    <button className="task-item__lose-task-btn" onClick={() => this.loseTask(task)}>
+                      <img src={lose} alt="Lose" className="lose-task-btn__image" />
+                    </button>
+                    <span className="task-btn-label">Failed</span>
+                  </div>
+                  <div className="task-card__action-item">
+                    <button className="task-item__remove-from-list" onClick={() => this.deleteTask(task._id)}>
+                      <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
+                    </button>
+                    <span className="task-btn-label">Delete</span>
+                  </div>
                 </div>
               </div>
             ))}

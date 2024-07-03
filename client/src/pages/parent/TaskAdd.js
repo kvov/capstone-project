@@ -82,6 +82,9 @@ class TaskAdd extends Component {
         dueDate,
       });
 
+      console.log("Task saved successfully:", result.data);
+      console.log("Task ID:", result.data.data._id);
+
       notification.success({
         message: "Task added successfully",
         title: "Success",
