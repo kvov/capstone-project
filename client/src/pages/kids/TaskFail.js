@@ -18,7 +18,7 @@ class TaskFail extends Component {
                 </div>
                 <div className="task-fail-section">
                     <img src={crying} alt="" className="task-fail-image" style={{width: '90%', height: 'auto', backgroundColor: 'white'}}/>
-                    <p className="task-fail-text"> {taskPrice} COINS LOST!!!</p>
+                    <p className="task-fail-text"> YOU LOST A CHANCE TO EARN {taskPrice} COINS!!!</p>
                 </div>
                 <Link to="/kidTasks" className="task-fail-back-button">Back to Tasks</Link>
             </div>
