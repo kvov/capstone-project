@@ -58,7 +58,6 @@ class TaskList extends Component {
     }
   }
   
-
   executeTask() {
     notification.info({
       message: "Developing...",

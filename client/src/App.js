@@ -8,6 +8,8 @@ import KidAdd from "./pages/parent/KidAdd";
 import TaskList from "./pages/parent/TaskList";
 import TaskAdd from "./pages/parent/TaskAdd";
 import KidTasks from "./pages/kids/KidTasks";
+import TaskSuccess from "./pages/kids/TaskSuccess";
+import TaskFail from "./pages/kids/TaskFail";
 import "./App.css";
 import "antd/dist/antd.css";
 
@@ -23,6 +25,8 @@ class App extends React.Component {
         <Route path="/tasks" exact component={TaskList} />
         <Route path="/taskAdd" exact component={TaskAdd} />
         <Route path="/kidTasks" exact component={KidTasks}/>
+        <Route path="/taskSuccess" component={TaskSuccess} />
+        <Route path="/taskFail" component={TaskFail} />
       </div>
     );
   }

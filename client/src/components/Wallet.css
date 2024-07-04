@@ -1,0 +1,37 @@
+.wallet {
+    height: 200px;
+    width: 240px;
+    position: relative;
+    margin: 20px auto 20px;
+    text-align: center;
+}
+.wallet__text {
+    font-family: 'Nunito';
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 18px;
+    letter-spacing: 1.5px;
+    color: #624DD6;
+    position: absolute;
+    padding-left: 25px;
+    top: 60px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    text-align: center;
+    text-shadow: 0px 0px 0 rgb(13,-8,129),
+                 0px 1px  0 rgb(-42,-63,74),
+                 0px 2px 1px rgba(0,0,0,0.45),
+                 0px 2px 1px rgba(0,0,0,0.5),
+                 0px 0px 1px rgba(0,0,0,.2);
+}
+.wallet__sum {
+    font-size: 50px;
+    line-height: 50px;
+    color: #62C052;
+    text-shadow: 0px 0px 0 rgb(42,135,25),
+                 0px 1px 0 rgb(14,107,0),
+                 0px 2px  0 rgb(-13,80,0),
+                 0px 3px 2px rgba(0,0,0,0.45),
+                 0px 3px 1px rgba(0,0,0,0.5),
+                 0px 0px 2px rgba(0,0,0,.2); 
+}

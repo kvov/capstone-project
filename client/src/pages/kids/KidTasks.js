@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import "./KidTasks.css";
+import Wallet from "../../components/Wallet";
 import leftArrow from "../../images/left-arrow.png";
 import removeBtn from "../../images/remove.png";
 import execute from "../../images/angel.png";
@@ -29,7 +30,6 @@ class KidTasks extends Component {
   async loadTasks(id) {
     try {
       let result = await axios.get(`/api/kidTasks/${id}`);
-      console.log("kid list: " + JSON.stringify(result));
       this.setState({
         tasks: result.data.data,
       });
@@ -41,16 +41,42 @@ class KidTasks extends Component {
     }
   }
 
-  showTaskDetails(task) {
-    notification.info({
-      message: `Task: ${task.taskDescription}, Price: ${task.taskCost}, Due Date: ${new Date(task.dueDate).toISOString().split('T')[0]}, Assigned Kid: ${task.kid.username}`,
-      title: "Task Details",
+  async deleteTask(taskId) {
+    console.log("Deleting task with ID:", taskId);  
+    try {
+      await axios.delete(`/api/task/${taskId}`);
+      notification.success({
+        message: "Task deleted successfully",
+        title: "Success",
+      });
+      this.loadTasks(window.localStorage.id); 
+    } catch (e) {
+      console.error("Error details:", e);  
+      notification.error({
+        message: e.response ? e.response.data.msg : 'Error deleting task',
+        title: "Error",
+      });
+    }
+  }
+
+  executeTask(task) {
+    const { username } = this.state;
+    this.props.history.push({
+      pathname: '/taskSuccess',
+      state: { taskPrice: task.taskCost, username }
+    });
+  }
+
+  loseTask(task) {
+    const { username } = this.state;
+    this.props.history.push({
+      pathname: '/taskFail',
+      state: { taskPrice: task.taskCost, username }
     });
   }
 
   render() {
     const { username, tasks } = this.state;
-    console.log(tasks);
     return (
       <div className="task-page">
         <div className="task_title_bar">
@@ -62,6 +88,8 @@ class KidTasks extends Component {
         
         <div className="task-page__title">Tasks</div>
 
+        <Wallet />
+
         <div className="task-page__task-list-div">
           <div className="task-page__task-list">
             {tasks.map((task) => (
@@ -72,7 +100,7 @@ class KidTasks extends Component {
                     {task.taskCost} coins | Due: {new Date(task.dueDate).toISOString().split('T')[0]} | Kid: {task.kid.username}
                   </p>
                 </div>
-                {/* <div className="task-card__actions">
+                <div className="task-card__actions">
                   <div className="task-card__action-item">
                     <button className="task-item__execute-task-btn" onClick={() => this.executeTask(task)}>
                       <img src={execute} alt="Execute" className="execute-task-btn__image" />
@@ -85,13 +113,13 @@ class KidTasks extends Component {
                     </button>
                     <span className="task-btn-label">Failed</span>
                   </div>
-                  <div className="task-card__action-item">
+                  {/* <div className="task-card__action-item">
                     <button className="task-item__remove-from-list" onClick={() => this.deleteTask(task._id)}>
                       <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
                     </button>
                     <span className="task-btn-label">Delete</span>
-                  </div>
-                </div> */}
+                  </div> */}
+                </div>
               </div>
             ))}
           </div>
@@ -101,4 +129,4 @@ class KidTasks extends Component {
   }
 }
 
-export default KidTasks;
+export default withRouter(KidTasks);

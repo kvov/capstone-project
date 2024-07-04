@@ -1,0 +1,34 @@
+.task-fail-section {
+    margin: 10px;
+}
+.task-fail-text {
+    margin-top: 20px;
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 24px;
+    line-height: 49px;
+    text-align: center;
+    color: #E45151;
+}
+
+.task-fail-back-button {
+    margin: 10px;
+    width: 200px;
+    height: 50px;
+    padding: 10px;
+    border-radius: 15px;
+    border: none;
+    background-color: #FCE23C;
+    letter-spacing: 1.5px;
+    color: #624dd6;
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 20px;
+    text-align: center;
+    outline: none; 
+    background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #FCE23C inset, 0 0.75rem 0.5rem 
+                                    rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                    #fcf9e6 inset; 
+}
