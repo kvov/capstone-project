@@ -59,10 +59,17 @@ class TaskList extends Component {
   }
   
 
-  showTaskDetails(task) {
+  executeTask() {
     notification.info({
-      message: `Task: ${task.taskDescription}, Price: ${task.taskCost}, Due Date: ${new Date(task.dueDate).toISOString().split('T')[0]}, Assigned Kid: ${task.kid.username}`,
-      title: "Task Details",
+      message: "Developing...",
+      title: "",
+    });
+  }
+
+  loseTask() {
+    notification.info({
+      message: "Developing...",
+      title: "",
     });
   }
 

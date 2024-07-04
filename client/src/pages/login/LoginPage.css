@@ -11,6 +11,10 @@
   height: 365px;
   border-radius: 0 0 50% 50%;
   background-image: linear-gradient(-180deg, #624dd6 0%, #624dd6 100%);
+  box-shadow: 0 0.4rem 1rem 0 rgba(22,75,195,0.50), 0 -0.25rem 1.5rem 
+                              rgba(110, 15, 155, 1) inset, 0 0.75rem 0.5rem 
+                              rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                              #624DD6 inset;
 }
 .login__item {
   width: 200px;
@@ -39,6 +43,10 @@
   text-align: center;
   outline: none;
   background-image: linear-gradient(-180deg, #62c052 0%, #62c052 100%);
+  box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #62C052 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;
 }
 .login__signup {
     color: white;
