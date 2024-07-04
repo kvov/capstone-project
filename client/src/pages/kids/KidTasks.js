@@ -72,7 +72,7 @@ class KidTasks extends Component {
                     {task.taskCost} coins | Due: {new Date(task.dueDate).toISOString().split('T')[0]} | Kid: {task.kid.username}
                   </p>
                 </div>
-                <div className="task-card__actions">
+                {/* <div className="task-card__actions">
                   <div className="task-card__action-item">
                     <button className="task-item__execute-task-btn" onClick={() => this.executeTask(task)}>
                       <img src={execute} alt="Execute" className="execute-task-btn__image" />
@@ -91,7 +91,7 @@ class KidTasks extends Component {
                     </button>
                     <span className="task-btn-label">Delete</span>
                   </div>
-                </div>
+                </div> */}
               </div>
             ))}
           </div>
