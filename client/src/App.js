@@ -2,7 +2,7 @@ import React from "react";
 import { Route } from "react-router-dom";
 import LoginPage from "./pages/login/LoginPage";
 import SignUpPage from "./pages/signup/SignUpPage";
-import UserPage from "./pages/parent/UserPage";
+import UserPage from "./pages/profile/UserPage";
 import KidList from "./pages/parent/KidList";
 import KidAdd from "./pages/parent/KidAdd";
 import TaskList from "./pages/parent/TaskList";
@@ -10,6 +10,8 @@ import TaskAdd from "./pages/parent/TaskAdd";
 import KidTasks from "./pages/kids/KidTasks";
 import TaskSuccess from "./pages/kids/TaskSuccess";
 import TaskFail from "./pages/kids/TaskFail";
+import WishList from "./pages/kids/WishList"; 
+import WishAdd from "./pages/kids/WishAdd";
 import "./App.css";
 import "antd/dist/antd.css";
 
@@ -27,6 +29,8 @@ class App extends React.Component {
         <Route path="/kidTasks" exact component={KidTasks}/>
         <Route path="/taskSuccess" component={TaskSuccess} />
         <Route path="/taskFail" component={TaskFail} />
+        <Route path="/wishList" exact component={WishList} /> 
+        <Route path="/wishAdd" exact component={WishAdd} />
       </div>
     );
   }

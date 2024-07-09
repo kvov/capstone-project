@@ -22,12 +22,18 @@ class UserPage extends Component {
     };
   }
 
-  clickWishes() {
-    notification.info({
-      message: "Developing...",
-      title: "",
-    });
-  }
+  clickWishes = () => {
+    const { role } = this.state;
+    if (role === "kid") {
+      this.props.history.push("/wishList");
+    } else {
+      notification.info({
+        message: "Developing...",
+        title: "",
+      });
+    }
+  };
+  
   logout() {
     localStorage.clear();
     this.props.history.replace("/login");

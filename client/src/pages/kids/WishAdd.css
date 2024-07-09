@@ -1,0 +1,92 @@
+.wish-add__back-arrow {
+    margin: auto;
+    width: 40px;
+}
+
+.wish-add__title-bar {
+    display: flex;
+    background-color: #624dd6;
+    padding: 10px;
+    overflow: hidden;
+    width: 100vw;
+}
+.wish-add-title-bar__center-title {
+    color: #fce23c;
+    flex: 1;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+    padding-right: 40px;
+}
+
+.wish-add-page__title {
+    color: #624DD6;
+    margin-top: 5px;
+    font-family: 'Nunito';
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-align: center; 
+}
+
+.wish_add_form {
+    margin: 10px;
+    padding: 10px 0;
+    border-radius: 16px;
+    background-color: #f1f1f1;
+}
+
+.wish_add_item {
+    height: 40px;
+    width: 200px;
+    margin: 10px 0;
+    color: #624dd6;
+    font-size: 18px;
+    font-weight: 500;
+    border-radius: 15px;
+    outline: none;
+    border: none;
+    padding-left: 10px;
+}
+
+.wish_add_save {
+    margin: 10px;
+    width: 150px;
+    height: 45px;
+    border-radius: 15px;
+    border: none;
+    background-color: #62C052;
+    letter-spacing: 1.5px;
+    color: #FCE23C; 
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+    background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #62C052 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;  
+}
+
+.wish_add_cancel {
+    margin: 10px;
+    width: 150px;
+    height: 45px;
+    border-radius: 15px;
+    border: none;
+    background-color: #FCE23C;
+    letter-spacing: 1.5px;
+    color: #624dd6;
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 20px;
+    text-align: center;
+    outline: none; 
+    background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #FCE23C inset, 0 0.75rem 0.5rem 
+                                    rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                    #fcf9e6 inset; 
+}
