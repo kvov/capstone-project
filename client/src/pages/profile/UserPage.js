@@ -10,6 +10,12 @@ class UserPage extends Component {
     let localStorage = window.localStorage;
     if (localStorage.islogin !== "1") {
       this.props.history.replace("/login");
+    } else {
+      this.setState({
+        username: localStorage.username,
+        role: localStorage.role,
+        profilePicture: localStorage.profilePicture || profile,  // Ensure profilePicture is loaded from localStorage
+      });
     }
   }
 
@@ -19,6 +25,7 @@ class UserPage extends Component {
     this.state = {
       username: localStorage.username,
       role: localStorage.role,
+      profilePicture: profile,
     };
   }
 
@@ -40,28 +47,27 @@ class UserPage extends Component {
   }
 
   render() {
-    const { username, photo, role } = this.state;
+    const { username, profilePicture, role } = this.state;
     return (
       <div className="user-content">
         <div className="user-data__form">
           <p className="user-profile__name">{username}</p>
           <p className="user-profile__photo-wrapper">
-            {photo ? (
-              <img className="user-profile__photo" src={photo} alt="" />
+            {profilePicture ? (
+              <img className="user-profile__photo" src={profilePicture} alt="Profile" />
             ) : (
               <img
                 src={profile}
                 alt=""
-                className="execute-task-btn__image"
-                style={{ height: 100, width: 100 }}
+                className="user-profile__photo"
               />
             )}
           </p>
           <br />
         </div>
 
-        {role == "kid" ? (
-          <div className="user-profile-page__buttons">
+        {role === "kid" ? (
+          <div className="user-profile-page__buttons kid-buttons">
             <button
               className="style_common_button style_common_button_green"
               type="submit"
@@ -69,14 +75,14 @@ class UserPage extends Component {
               {/* <Link to="/wishes">Wishes</Link> */}
               <span onClick={this.clickWishes}>Wishes</span>
             </button>
-            <br></br>
+            
             <button
               className="style_common_button style_common_button_blue"
               type="submit"
             >
               <Link to="/kidTasks">Tasks</Link>
             </button>
-            <br></br>
+            
             <button
               className="style_common_button style_common_button_purple"
               onClick={() => {
@@ -87,30 +93,30 @@ class UserPage extends Component {
             </button>
           </div>
         ) : (
-          <div className="user-profile-page__buttons">
+          <div className="user-profile-page__buttons parent-buttons">
             <button
               className="style_common_button style_common_button_green"
               type="submit"
             >
               <Link to="/wishes">See Wishes</Link>
             </button>
-            <br></br>
+            
             <button
               className="style_common_button style_common_button_purple"
               type="submit"
             >
               <Link to="/tasks">Add Tasks</Link>
             </button>
-            <br></br>
+            
             <button
               className="style_common_button style_common_button_blue"
               type="submit"
             >
               <Link to="/kids">Kid List</Link>
             </button>
-            <br></br>
+            
             <button
-              className="style_common_button style_common_button_purple"
+              className="style_common_button style_common_button_green"
               onClick={() => {
                 this.logout();
               }}

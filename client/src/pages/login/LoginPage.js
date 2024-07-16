@@ -17,6 +17,7 @@ class LoginPage extends Component {
     this.state = {
       username: "",
       password: "",
+      profilePicture: "",
     };
   }
 
@@ -54,8 +55,8 @@ class LoginPage extends Component {
             </button>
           </div>
           <div>
-            <Link to="/signUp">
-              <a className="login__signup"> Or SignUp?</a>
+            <Link to="/signUp" className="login__signup">
+              Or SignUp?
             </Link>
           </div>
         </div>
@@ -75,13 +76,18 @@ class LoginPage extends Component {
           username: username,
           password: password,
         });
-        const { id, role } = data.data;
+
+        console.log('API Response Data:', data);
+        const { id, role, profilePicture } = data.data;
 
         let localStorage = window.localStorage;
         localStorage.username = username;
         localStorage.islogin = "1";
         localStorage.role = role;
         localStorage.id = id;
+        localStorage.profilePicture = profilePicture || '';
+
+        this.setState({ profilePicture: profilePicture });
 
         this.props.history.replace("/");
       } catch (e) {

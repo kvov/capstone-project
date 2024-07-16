@@ -11,7 +11,13 @@ const saveParent = async (req, res) => {
     if (kid) {
       throw new Error("Username existed!");
     }
-    const { username } = await parentModel.create(req.body);
+    const profilePicture = req.body.profilePicture || '';
+
+    // const { username } = await parentModel.create(req.body);
+    const { username } = await parentModel.create({
+      ...req.body,
+      profilePicture,
+    });
     res.status(200).send({ data: { username } });
   } catch (e) {
     res.status(400).send({ msg: e.message });
@@ -38,7 +44,16 @@ const saveKid = async (req, res) => {
     if (!parent) {
       throw new Error("Not a valid parent");
     }
-    const { username } = await kidModel.create(req.body);
+
+    // const { username } = await kidModel.create(req.body);
+
+    const profilePicture = req.body.profilePicture || '';
+
+    const { username } = await kidModel.create({
+      ...req.body,
+      profilePicture,
+    });
+
     res.status(200).send({ data: { username } });
   } catch (e) {
     console.log(e);
@@ -60,7 +75,14 @@ const login = async (req, res) => {
       const same = await bcrypt.compare(password, object.password);
       if (same) {
         req.session.userId = object.id;
-        res.status(200).send({ data: { username, id: object.id, role } });
+        res.status(200).send({
+          data: {
+            username,
+            id: object.id,
+            role,
+            profilePicture: object.profilePicture || '' 
+          }
+        });
       } else {
         throw new Error("Wrong password");
       }

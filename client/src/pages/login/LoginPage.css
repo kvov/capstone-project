@@ -22,7 +22,7 @@
   margin-top: 50px;
   background-color: #fce23c;
   color: #624dd6;
-  font-size: 18px;
+  font-size: 1.2rem;
   font-weight: 500;
   border-radius: 20px;
   text-align: center;
@@ -35,7 +35,7 @@
   margin-top: 50px;
   margin-bottom: 20px;
   background-color: #62c052;
-  color: #fce23c;
+  color: white;
   font-weight: 500;
   font-size: 20px;
   border-radius: 20px;
@@ -50,18 +50,82 @@
 }
 .login__signup {
     color: white;
-    list-style: none;
+    /* list-style: none; */
+    font-size: 1rem;
 }
 .slogan {
-  top: 500px;
-  position: absolute;
-  left: 50%;
+  margin-top: 20px;
   font-family: "LuckiestGuy";
   color: #624dd6;
-  font-size: 40px;
-  transform: translate(-50%, 0);
+  font-size: 4rem;
 }
 @font-face {
   font-family: "LuckiestGuy";
   src: url("/public/LuckiestGuy-Regular.ttf");
+}
+
+/* Media queries for tablets */
+@media (min-width: 600px) {
+
+  .login__form {
+    height: 465px;
+    padding-top: 40px;
+  }
+  .login__item {
+    width: 300px;
+    height: 50px;
+    font-size: 1.6rem;
+  }
+  
+  .user-data__photo {
+    margin-top: 20px;
+    width: 160px;
+    height: 160px;
+    font-size: 1.8rem;
+  }
+
+  .login_button {
+    width: 300px;
+    height: 50px;
+    font-size: 1.8rem;
+    margin-bottom: 30px;
+  }
+
+  .login__signup {
+    font-size: 1.3rem;
+  }
+
+  .slogan {
+    font-size: 5.4rem;
+  }
+}
+
+/* Media queries for desktops */
+@media (min-width: 1025px) {
+
+  .login__form {
+    height: 500px;
+    padding-top: 40px;
+  }
+  .login__item {
+    width: 400px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .login_button {
+    width: 400px;
+    height: 60px;
+    font-size: 1.8rem;
+  }
+
+  .login__signup {
+    font-size: 1.4rem;
+  }
+
+  .slogan {
+    margin-top: 40px;
+    font-size: 7rem;
+    line-height: 1.1;
+  }
 }

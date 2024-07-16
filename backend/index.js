@@ -14,7 +14,9 @@ const init = async () => {
     await db();
 
     const app = new express();
-    app.use(express.json());
+    // app.use(express.json());
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
     app.use(
       session({
         secret: "your-secret-key",
@@ -23,7 +25,7 @@ const init = async () => {
       })
     );
     // app.use(express.static(frontendDir));
-    app.use(express.urlencoded());
+    // app.use(express.urlencoded());
     // fs.readdirSync(htmlDir)
     //   .filter((file) => file.endsWith(".html"))
     //   .forEach((file) => {

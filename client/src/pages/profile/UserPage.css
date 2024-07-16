@@ -7,6 +7,7 @@
 .user-data__form {
   background-color: #624dd6;
   padding: auto;
+  padding-top: 20px;
   overflow: hidden;
   width: 100vw;
   height: 365px;
@@ -20,11 +21,11 @@
 }
 
 .user-profile__photo-wrapper {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   background-color: white;
-  margin: 90px auto;
+  margin: 50px auto;
   text-align: center;
   overflow: hidden;
 }
@@ -34,17 +35,17 @@
 }
 .user-profile__photo {
   width: auto;
-  height: 100px;
+  height: 150px;
 }
 
 .user-profile__name {
   color: #fce23c;
   font-family: "Nunito";
-  font-size: 30px;
+  font-size: 2.5rem;
   font-weight: 800;
-  line-height: 41px;
-  letter-spacing: 2px;
-  margin: 20px auto;
+  line-height: 2.5625rem;
+  letter-spacing: 0.125rem;
+  margin: 1.25rem auto;
   text-align: center;
 }
 a {
@@ -53,4 +54,88 @@ a {
 
 .user-page-button__task a {
     color: #FCE23C;
+}
+
+.user-profile-page__buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+/* Media queries for tablets */
+@media (min-width: 600px) {
+
+  .user-data__form {
+    height: 465px;
+  }
+  .user-profile__name {
+    margin-top: 40px;
+    font-size: 3rem; 
+  }
+
+  .user-profile__photo-wrapper {
+    width: 200px;
+    height: 200px;
+  }
+
+  .user-profile__photo {
+    height: 200px;
+  }
+
+  .style_common_button {
+    width: calc(80vw - 40px);
+    margin-top: 30px;
+    height: 80px;
+    font-size: 2rem;
+    border-radius: 12px;
+  }
+}
+
+/* Media queries for desktops */
+@media (min-width: 1025px) {
+
+  .user-data__form {
+    height: 450px;
+  }
+
+  .user-profile__name {
+    margin-top: 50px;
+    font-size: 4rem; 
+  }
+
+  .user-profile__photo-wrapper {
+    width: 250px;
+    height: 250px;
+    margin: 30px auto;
+  }
+
+  .user-profile__photo {
+    height: 250px;
+  }
+
+  .user-profile-page__buttons {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto;
+    grid-gap: 1rem;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
+  .kid-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 30px;
+  }
+
+  .style_common_button {
+    width: 90%;
+    justify-self: center;
+    height: 150px;
+    font-size: 3rem;
+    margin: 10px;
+  }
 }

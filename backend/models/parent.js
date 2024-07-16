@@ -8,6 +8,10 @@ const parentSchema = new Schema({
     unique: [true, "Username existed!"],
     required: true,
   },
+  profilePicture: {
+    type: String,
+    default: "", 
+  },
 });
 async function hashPassword(next) {
   const user = this;

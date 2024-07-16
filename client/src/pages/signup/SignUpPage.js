@@ -17,11 +17,22 @@ class SignUpPage extends Component {
     this.state = {
       username: "",
       password: "",
+      profilePicture: "",
     };
   }
 
+  handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    reader.addEventListener('load', () => {
+      this.setState({ profilePicture: reader.result });
+    });
+    reader.readAsDataURL(file);
+  };
+
   render() {
-    const { username, password } = this.state;
+    const { username, password, profilePicture } = this.state;
     return (
       <div className="signup-content">
         <div className="signup__form">
@@ -47,37 +58,63 @@ class SignUpPage extends Component {
               placeholder="Enter Your Password"
             />
           </div>
+          <div className="user-data__photo-upload">
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              accept=".jpg, .png, .jpeg"
+              className="user-data__photo"
+              onChange={this.handleFileUpload}
+              ref={fileInput => this.fileInput = fileInput}
+            />
+            {!profilePicture ? (
+              <button
+                className="user-data__photo"
+                onClick={() => this.fileInput.click()}
+              >
+                Select Photo
+              </button>
+            ) : (
+              <img
+                className="user-data__photo"
+                src={profilePicture}
+                alt="Profile"
+              />
+            )}
+          </div>
           <div>
             <button className="signup_button" onClick={() => this.signup()}>
               Sign Up
             </button>
           </div>
           <div>
-            <Link to="/">
-              <a className="signup__login">Or Login?</a>
+            <Link to="/" className="signup__login">
+              Or Login?
             </Link>
           </div>
         </div>
 
         <label className="slogan">
-          ORGANISE<br></br>KIDS
+          ORGANISE<br/>KIDS
         </label>
       </div>
     );
   }
   async signup() {
-    const { username, password } = this.state;
+    const { username, password, profilePicture } = this.state;
 
     if (username && password) {
       try {
         await axios.post("/api/signup", {
           username: username,
           password: password,
+          profilePicture: profilePicture,
         });
 
         let localStorage = window.localStorage;
         localStorage.username = username;
         localStorage.islogin = "1";
+        localStorage.profilePicture = profilePicture;
 
         this.props.history.push("/");
       } catch (e) {
