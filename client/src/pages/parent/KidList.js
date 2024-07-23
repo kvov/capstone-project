@@ -29,7 +29,9 @@ class KidList extends Component {
     console.log("load data");
     try {
       let result = await axios.get("/api/kids");
+      let not = await axios.get("/api/notification");
       // console.log("result: " + JSON.stringify(result));
+      console.log(not);
       this.setState({
         kids: result.data.data,
       });
@@ -54,41 +56,39 @@ class KidList extends Component {
       <div className="kid-page">
         <Navbar username={username} />
         <div className="page-title">Manage Kids</div>
-  
+
         <div className="kid-add-button-div">
           <Link to="/kidsAdd" className="kid-add-button">
             Add Kid
           </Link>
         </div>
-  
-        <div className="kid-page__kid-list-div">
-          <div className="kid-page__kid-list">
-            {kids.map((kid) => (
-              <div className="kid-card" key={kid._id}>
-                <div className="kid-card__content">
-                  <img
-                    src={profile}
-                    alt="Kid Profile"
-                    className="kid-card__photo"
-                  />
-                  <div className="kid-card__details">
-                    <p className="kid-card__username">{kid.username}</p>
-                    <p className="kid-card__coins">0 Coins</p>
-                  </div>
-                </div>
-                <div className="kid-card__actions">
-                  <button className="kid-card__details-btn" onClick={() => this.showKidDetails()}>
-                    Details
-                  </button>
-                </div>
-              </div>
-            ))}
+
+        {kids.map((kid) => (
+          <div className="kid_list_item">
+            <img
+              src={profile}
+              alt=""
+              className="kid_list_photo"
+              style={{ height: 50, width: 50 }}
+            />
+            <label className="kid_list_top_text kid_list_item_center ">
+              {/* Kid Name */}
+              {kid.username}
+            </label>
+            <label className="kid_list_top_text kid_list_item_center ">
+              0 Coins
+            </label>
+            <button
+              className="kid-details-button"
+              onClick={() => this.showKidDetails()}
+            >
+              Details
+            </button>
           </div>
-        </div>
+        ))}
       </div>
     );
   }
-  
 }
 
 export default KidList;

@@ -2,6 +2,8 @@ const parentModel = require("../models/parent");
 const kidModel = require("../models/kid");
 const taskModel = require("../models/task");
 const wishModel = require("../models/wish");
+const kidNotificationModel = require("../models/notification/kid");
+const parentNotificationModel = require("../models/notification/parent");
 
 const bcrypt = require("bcrypt");
 
@@ -11,7 +13,7 @@ const saveParent = async (req, res) => {
     if (kid) {
       throw new Error("Username existed!");
     }
-    const profilePicture = req.body.profilePicture || '';
+    const profilePicture = req.body.profilePicture || "";
 
     // const { username } = await parentModel.create(req.body);
     const { username } = await parentModel.create({
@@ -26,6 +28,7 @@ const saveParent = async (req, res) => {
 const getKids = async (req, res) => {
   try {
     const parentId = req.session.userId;
+    console.log(parentId);
     const kids = await kidModel.find({ parent: parentId });
     res.status(200).send({ data: kids });
   } catch (e) {
@@ -47,7 +50,7 @@ const saveKid = async (req, res) => {
 
     // const { username } = await kidModel.create(req.body);
 
-    const profilePicture = req.body.profilePicture || '';
+    const profilePicture = req.body.profilePicture || "";
 
     const { username } = await kidModel.create({
       ...req.body,
@@ -75,13 +78,18 @@ const login = async (req, res) => {
       const same = await bcrypt.compare(password, object.password);
       if (same) {
         req.session.userId = object.id;
+        if (role === "kid") {
+          req.session.parentId = object.parent;
+        }
+        req.session.role = role;
+        req.session.username = username;
         res.status(200).send({
           data: {
             username,
             id: object.id,
             role,
-            profilePicture: object.profilePicture || '' 
-          }
+            profilePicture: object.profilePicture || "",
+          },
         });
       } else {
         throw new Error("Wrong password");
@@ -101,6 +109,18 @@ const logout = async (req, res) => {
   } catch (e) {
     res.status(400).send({ msg: e });
   }
+};
+const createKidNotification = async (kid, content) => {
+  return await kidNotificationModel.create({
+    kid,
+    content,
+  });
+};
+const createParentNotification = async (parent, content) => {
+  return await parentNotificationModel.create({
+    parent,
+    content,
+  });
 };
 
 //task methods
@@ -145,6 +165,10 @@ const saveTask = async (req, res) => {
       taskCost,
       dueDate,
     });
+    await createKidNotification(
+      kid,
+      `Your parent create new task for you:${taskDescription}`
+    );
     res.status(200).send({ data: task });
   } catch (e) {
     res.status(400).send({ msg: e.message });
@@ -174,7 +198,10 @@ const getKidTasks = async (req, res) => {
   try {
     // const parentId = req.session.userId;
     const kidId = req.params.id;
-    const tasks = await taskModel.find({ kid: kidId }).populate("kid").sort({"createTime": -1});
+    const tasks = await taskModel
+      .find({ kid: kidId })
+      .populate("kid")
+      .sort({ createTime: -1 });
 
     // Format the dueDate to remove time part
     const formattedTasks = tasks.map((task) => {
@@ -250,7 +277,10 @@ const saveWish = async (req, res) => {
 const getWishes = async (req, res) => {
   try {
     const parentId = req.session.userId;
-    const wishes = await wishModel.find({ parent: parentId }).populate("kid").sort({"createTime": -1});
+    const wishes = await wishModel
+      .find({ parent: parentId })
+      .populate("kid")
+      .sort({ createTime: -1 });
 
     res.status(200).send({ data: wishes });
   } catch (e) {
@@ -262,7 +292,9 @@ const getParentWishes = async (req, res) => {
   try {
     const userId = req.session.userId;
     console.log("parentId: " + userId);
-    const wishes = await wishModel.find({ parent: userId }).sort({"createTime": -1});
+    const wishes = await wishModel
+      .find({ parent: userId })
+      .sort({ createTime: -1 });
 
     res.status(200).send({ data: wishes });
   } catch (e) {
@@ -276,6 +308,23 @@ const getKidWishes = async (req, res) => {
     const wishes = await wishModel.find({ kid: kidId });
 
     res.status(200).send({ data: wishes });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+const getNotifications = async (req, res) => {
+  let notifications = [];
+  try {
+    if (req.session.role == "kid") {
+      notifications = await kidNotificationModel.find({
+        kid: req.session.userId,
+      });
+    } else {
+      notifications = await parentNotificationModel.find({
+        parent: req.session.userId,
+      });
+    }
+    res.status(200).send({ data: notifications });
   } catch (e) {
     res.status(400).send({ msg: e.message });
   }
@@ -294,7 +343,9 @@ const deleteWish = async (req, res) => {
     // Check if the wish belongs to the kid making the request
     const kidId = req.body.kid;
     if (wish.kid.toString() !== kidId) {
-      return res.status(403).send({ msg: "Not authorized to delete this wish" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to delete this wish" });
     }
 
     // Delete the wish
@@ -304,9 +355,6 @@ const deleteWish = async (req, res) => {
     res.status(400).send({ msg: e.message });
   }
 };
-
-
-
 const fulfillWish = async (req, res) => {
   try {
     const userId = req.session.userId;
@@ -318,27 +366,31 @@ const fulfillWish = async (req, res) => {
       throw new Error("Wish not found");
     }
 
-    console.log("wish: " + JSON.stringify(wish))
-    console.log("user id:" + userId)
+    console.log("wish: " + JSON.stringify(wish));
+    console.log("user id:" + userId);
     // Check if the wish belongs to the kid making the request
     if (wish.kid.toString() !== userId && wish.parent.toString() !== userId) {
-      return res.status(403).send({ msg: "Not authorized to execute this wish" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to execute this wish" });
     }
-    
+
     // TODO check if the coin in the kid's wallet is enough.
     // const kid = kidModel.findById(wish.kid)
 
     // Mark the wish as fulfilled
     wish.isFulfilled = true;
     await wish.save();
+    await createParentNotification(
+      req.session.parentId,
+      `Your kid ${req.session.username} fullfilled a wish:${wish.wishDescription}`
+    );
 
     res.status(200).send({ msg: "Wish fulfilled successfully" });
   } catch (e) {
     res.status(400).send({ msg: e.message });
   }
 };
-
-
 
 module.exports = {
   "[POST] /login": login,
@@ -356,4 +408,5 @@ module.exports = {
   "[DELETE] /wish/:id": deleteWish,
   "[POST] /wish/fulfill/:id": fulfillWish,
   "[GET] /logout": logout,
+  "[GET] /notification": getNotifications,
 };

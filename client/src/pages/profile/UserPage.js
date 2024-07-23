@@ -14,7 +14,7 @@ class UserPage extends Component {
       this.setState({
         username: localStorage.username,
         role: localStorage.role,
-        profilePicture: localStorage.profilePicture || profile,  // Ensure profilePicture is loaded from localStorage
+        profilePicture: localStorage.profilePicture || profile, // Ensure profilePicture is loaded from localStorage
       });
     }
   }
@@ -40,7 +40,7 @@ class UserPage extends Component {
       });
     }
   };
-  
+
   logout() {
     localStorage.clear();
     this.props.history.replace("/login");
@@ -54,13 +54,13 @@ class UserPage extends Component {
           <p className="user-profile__name">{username}</p>
           <p className="user-profile__photo-wrapper">
             {profilePicture ? (
-              <img className="user-profile__photo" src={profilePicture} alt="Profile" />
-            ) : (
               <img
-                src={profile}
-                alt=""
                 className="user-profile__photo"
+                src={profilePicture}
+                alt="Profile"
               />
+            ) : (
+              <img src={profile} alt="" className="user-profile__photo" />
             )}
           </p>
           <br />
@@ -75,14 +75,20 @@ class UserPage extends Component {
               {/* <Link to="/wishes">Wishes</Link> */}
               <span onClick={this.clickWishes}>Wishes</span>
             </button>
-            
+
             <button
               className="style_common_button style_common_button_blue"
               type="submit"
             >
               <Link to="/kidTasks">Tasks</Link>
             </button>
-            
+            <button
+              className="style_common_button style_common_button_green"
+              type="submit"
+            >
+              <Link to="/notifications">Notifications</Link>
+            </button>
+
             <button
               className="style_common_button style_common_button_purple"
               onClick={() => {
@@ -100,21 +106,27 @@ class UserPage extends Component {
             >
               <Link to="/parentWishes">See Wishes</Link>
             </button>
-            
+
             <button
               className="style_common_button style_common_button_purple"
               type="submit"
             >
               <Link to="/tasks">Add Tasks</Link>
             </button>
-            
+
             <button
               className="style_common_button style_common_button_blue"
               type="submit"
             >
               <Link to="/kids">Kid List</Link>
             </button>
-            
+            <button
+              className="style_common_button style_common_button_purple"
+              type="submit"
+            >
+              <Link to="/notifications">Notifications</Link>
+            </button>
+
             <button
               className="style_common_button style_common_button_green"
               onClick={() => {
