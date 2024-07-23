@@ -1,0 +1,33 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #624dd6;
+    padding: 20px;
+    width: 100vw;
+    position: relative;
+}
+
+.navbar__back-arrow {
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+
+.navbar__back-arrow-img {
+    width: 100%; 
+}
+
+.navbar__title-container {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); 
+}
+.navbar__title {
+    color: #fce23c;
+    flex: 1;
+    font-size: 2.4rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+}
+
+

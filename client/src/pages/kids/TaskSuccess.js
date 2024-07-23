@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import happy from '../../images/star-thumbup.png';
-import leftArrow from "../../images/left-arrow.png";
+import Navbar from '../../components/Navbar';
 import './TaskSuccess.css';
 
 class TaskSuccess extends Component {
@@ -10,14 +10,9 @@ class TaskSuccess extends Component {
 
         return (
             <div className="task-success-page">
-                <div className="task_title_bar">
-                    <Link to="/kidTasks" className="task__back_arrow">
-                        <img src={leftArrow} alt="" />
-                    </Link>
-                    <label className="task_title_bar_center_title">{username}</label>
-                </div>
+                <Navbar username={username} />
                 <div className="task-success-section">
-                    <img src={happy} alt="" className="task-success-image" style={{width: '90%', height: 'auto', backgroundColor: 'white'}}/>
+                    <img src={happy} alt="" className="task-success-image"/>
                     <p className="task-success-text"> GREAT JOB!!! <br /> YOU WILL EARN <br />{taskPrice} COINS<br /> WHEN YOUR PARENT CONFIRMS THE TASK COMPLETION!!!</p>
                 </div>
                 <Link to="/kidTasks" className="task-success-back-button">Back to Tasks</Link>

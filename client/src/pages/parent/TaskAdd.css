@@ -1,97 +1,82 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
-.task__back_arrow {
-    margin: auto;
-    width: 40px;
-}
 
-.task_title_bar {
-    display: flex;
-    background-color: #624dd6;
-    padding: 10px;
-    overflow: hidden;
-    width: 100vw;
-}
-.task_title_bar_center_title {
-    color: #fce23c;
-    flex: 1;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-align: center;
-    padding-right: 40px;
-}
 .task-add-page {
+    background-color: #fff8cd;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
 }
-.task-add-page__title {
-    color: #624DD6;
-    margin-top: 10px;
-    font-family: 'Nunito';
-    font-size: 1.5rem;
-    font-weight: 900;
-    text-align: center;
-}
-
 .task_add_form {
-    margin: 10px;
-    padding: 10px 0;
+    margin: 10px 20px;
     border-radius: 16px;
-    background-color: #f1f1f1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+    background-color: #624dd6; 
+}
+.task_add_form__inner {
+    padding: 20px;
+    border-radius: 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .task_add_item {
     height: 40px;
-    width: 200px;
-    margin: 10px 0;
+    width: 100%;
+    margin: 20px 0;
     color: #624dd6;
-    font-size: 18px;
+    font-size: 1.2rem;
     font-weight: 500;
     border-radius: 15px;
-    text-align: center;
     outline: none;
     border: none;
+    padding-left: 10px;
 }
 
 .task_add_item::placeholder {
     color: #624dd6; 
 }
 
-.task_add_save {
-    margin: 10px;
-    width: 150px;
+.task_add_buttons {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.task_add_save, .task_add_cancel {
+    margin: 20px 0;
+    width: 100%;
     height: 45px;
     border-radius: 15px;
     border: none;
-    background-color: #62C052;
     letter-spacing: 1.5px;
-    color: #FCE23C; 
     font-family: 'Nunito';
     font-weight: 800;
-    font-size: 20px;
+    font-size: 1.3rem;
     text-align: center;
     outline: none;
+}
+
+.task_add_save {
+    color: #FCE23C;
     background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
     box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #62C052 inset, 0 0.75rem 0.5rem 
-                                 rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
-                                 rgb(70, 207, 123) inset;  
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;  
 }
 
 .task_add_cancel {
-    margin: 10px;
-    width: 150px;
-    height: 45px;
-    border-radius: 15px;
-    border: none;
     background-color: #FCE23C;
-    letter-spacing: 1.5px;
     color: #624dd6;
-    font-family: 'Nunito';
-    font-weight: 800;
-    font-size: 20px;
-    text-align: center;
-    outline: none; 
     background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
     box-shadow: 0 0.2rem 0.3rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #FCE23C inset, 0 0.75rem 0.5rem 
@@ -99,3 +84,35 @@
                                     #fcf9e6 inset; 
 }
 
+/* Tablet Styles */
+@media (min-width: 768px) {
+    .task_add_form {
+        background-image: url('../../images/taskbackground.png');
+        background-size: cover;
+        background-position: center;
+        width: 80%;
+        max-width: 600px;
+        padding: 0; 
+    }
+
+    .task_add_form__inner {
+        background-color: rgba(0, 0, 0, 0.5); 
+        padding: 40px;
+    }
+    .task_add_item {
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .task_add_save, .task_add_cancel {
+        height: 60px;
+        border-radius: 15px;
+        border: none;
+        letter-spacing: 1.5px;
+        font-family: 'Nunito';
+        font-weight: 800;
+        font-size: 1.7rem;
+        text-align: center;
+        outline: none;
+    }
+}

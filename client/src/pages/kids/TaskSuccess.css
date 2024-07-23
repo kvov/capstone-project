@@ -5,15 +5,20 @@
     margin-top: 20px;
     font-family: 'Nunito';
     font-weight: 800;
-    font-size: 24px;
+    font-size: 2rem;
     line-height: 49px;
     text-align: center;
     color: #62C052;
 }
+.task-success-image {
+    width: 90%;
+    max-width: 600px; 
+    height: auto; 
+}
 .task-success-back-button {
     margin: 10px;
-    width: 200px;
-    padding: 10px;
+    width: 350px;
+    padding: 20px;
     height: 50px;
     border-radius: 15px;
     border: none;
@@ -22,12 +27,12 @@
     color: #FCE23C; 
     font-family: 'Nunito';
     font-weight: 800;
-    font-size: 20px;
+    font-size: 1.5rem;
     text-align: center;
     outline: none;
     background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
     box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #62C052 inset, 0 0.75rem 0.5rem 
-                                 rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
-                                 rgb(70, 207, 123) inset;
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;
 }

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../style.css";
 import "./KidAdd.css";
-import leftArrow from "../../images/left-arrow.png";
+import Navbar from "../../components/Navbar";
 import { notification } from "antd";
 
 class KidAdd extends Component {
@@ -117,16 +117,11 @@ class KidAdd extends Component {
   render() {
     const { username, kidName, kidNick, kidDob, kidPass } = this.state;
     return (
-      <div>
-        <div className="kid-add_title_bar">
-          <Link to="/kids" className="kid-add__back_arrow">
-            <img src={leftArrow} alt="" />
-          </Link>
-          <label className="kid-add_title_bar_center_title">{username}</label>
-        </div>
-        <div className="kid-add__title">Add Kid</div>
+      <div className="kid-add-page">
+        <Navbar username={username} />
+        <div className="page-title">Add Kid</div>
         <div className="kid_add_form">
-          <div>
+          <div className="kid_add_form__inner">
             <input
               value={kidName}
               type="text"
@@ -136,8 +131,8 @@ class KidAdd extends Component {
                 this.setState({ kidName: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
+          
             <input
               value={kidNick}
               type="text"
@@ -147,8 +142,8 @@ class KidAdd extends Component {
                 this.setState({ kidNick: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
+          
             <input
               value={kidDob}
               type="date"
@@ -159,8 +154,8 @@ class KidAdd extends Component {
                 this.setState({ kidDob: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
+          
             <input
               value={kidPass}
               type="password"
@@ -170,7 +165,7 @@ class KidAdd extends Component {
                 this.setState({ kidPass: e.target.value });
               }}
             />
-          </div>
+          
 
           <div className="kid_add_buttons">
             <button
@@ -188,6 +183,7 @@ class KidAdd extends Component {
           </div>
         </div>
       </div>
+    </div>
     );
   }
 }

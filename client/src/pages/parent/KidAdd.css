@@ -1,74 +1,75 @@
-.kid-add__back_arrow {
-    margin: auto;
-    width: 40px;
-  }
-  
-  .kid-add_title_bar {
-    display: flex;
-    background-color: #624dd6;
-    padding: 10px;
-    overflow: hidden;
-    width: 100vw;
-  }
-  .kid-add_title_bar_center_title {
-    color: #fce23c;
-    flex: 1;
-    font-size: 30px;
-    font-weight: 500;
-    letter-spacing: 2px;
-    text-align: center;
-    padding-right: 40px;
-  }
+.kid-add-page {
+  background-color: #fff8cd;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
 .kid_add_form {
-  margin: 10px;
-  padding: 10px 0;
+  margin: 10px 20px;
   border-radius: 16px;
-  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+  background-color: #624dd6; 
+}
+.kid_add_form__inner {
+  padding: 20px;
+  border-radius: 16px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.kid-add__title {
-    color: #624DD6;
-    margin-top: 10px;
-    font-family: 'Nunito';
-    font-size: 1.5rem;
-    font-weight: 900;
-    text-align: center; 
-  }
-
 .kid_add_item {
-    height: 40px;
-    width: 200px;
-    margin: 10px 0;
-    color: #624dd6;
-    font-size: 18px;
-    font-weight: 500;
-    border-radius: 20px;
-    text-align: center;
-    outline: none;
-    border: none;
-  }
+  height: 40px;
+  width: 100%;
+  margin: 20px 0;
+  color: #624dd6;
+  font-size: 1.2rem;
+  font-weight: 500;
+  border-radius: 15px;
+  outline: none;
+  border: none;
+  padding-left: 10px;
+}
 
 .kid_add_item__dob {
-    padding: 0 30px;
+    padding: 0 10px;
+}
+
+.kid_add_item::placeholder {
+  color: #624dd6; 
 }
 
 .kid_add_buttons {
-    display: flex;
-    width: 200px;
-    margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
 }
+
+.kid_add_save, .kid_add_cancel {
+  margin: 20px 0;
+  width: 100%;
+  height: 45px;
+  border-radius: 15px;
+  border: none;
+  letter-spacing: 1.5px;
+  font-family: 'Nunito';
+  font-weight: 800;
+  font-size: 1.3rem;
+  text-align: center;
+  outline: none;
+}
+
 .kid_add_save {
-    flex: 1;
-    margin-right: 10px;
-    border-radius: 15px;
-    border: none;
     background-color: #62C052;
-    letter-spacing: 1.5px; 
-    font-family: 'Nunito';
-    font-weight: 800;
-    font-size: 20px;
-    text-align: center;
-    outline: none;
+    color: #FCE23C;
     background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
     box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
                                 #62C052 inset, 0 0.75rem 0.5rem 
@@ -76,22 +77,44 @@
                                 rgb(70, 207, 123) inset;
 }
 .kid_add_cancel {
-    flex: 1;
-    border-radius: 15px;
-    border: none;
-    background-color: #4D9CD6;
-    letter-spacing: 1.5px; 
-    font-family: 'Nunito';
-    font-weight: 800;
-    font-size: 20px;
-    text-align: center;
-    outline: none;
-    background-image: linear-gradient(-180deg, #4D9CD6 0%, #4D9CD6 100%);
-    box-shadow: 0 0.2rem 0.3rem 0 rgba(9, 76, 131, 0.5), 0 -0.25rem 1.5rem 
-                                #4D9CD6 inset, 0 0.75rem 0.5rem 
-                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
-                                rgb(28, 100, 166) inset;
+  background-color: #FCE23C;
+  color: #624dd6;
+  background-image: linear-gradient(-180deg, #FCE23C 0%, #FCE23C 100%);
+  box-shadow: 0 0.2rem 0.3rem 0 rgba(79, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                              #FCE23C inset, 0 0.75rem 0.5rem 
+                                  rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                  #fcf9e6 inset; 
 }
-.user-page-button__wish a {
-    color: #FCE23C;
+
+/* Tablet Styles */
+@media (min-width: 768px) {
+  .kid_add_form {
+      background-image: url('../../images/kidbackground.png');
+      background-size: cover;
+      background-position: center;
+      width: 80%;
+      max-width: 600px;
+      padding: 0; 
+  }
+
+  .kid_add_form__inner {
+      background-color: rgba(0, 0, 0, 0.5); 
+      padding: 40px;
+  }
+  .kid_add_item {
+      height: 60px;
+      font-size: 1.5rem;
+  }
+
+  .kid_add_save, .kid_add_cancel {
+      height: 60px;
+      border-radius: 15px;
+      border: none;
+      letter-spacing: 1.5px;
+      font-family: 'Nunito';
+      font-weight: 800;
+      font-size: 1.7rem;
+      text-align: center;
+      outline: none;
+  }
 }
