@@ -68,8 +68,9 @@ class ParentWishList extends Component {
                     {wish.wishDescription}
                   </p>
                   <p className="wish-card__details">
-                    {wish.wishCost} coins |{" "}
-                    {wish.isFulfilled ? "Fulfilled" : "Pending"}
+                    {`${wish.kid.username} | ${wish.wishCost} coins | ${
+                      wish.isFulfilled ? "Fulfilled" : "Pending"
+                    }`}
                   </p>
                 </div>
                 <div className="wish-card__actions">

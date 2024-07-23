@@ -293,9 +293,9 @@ const getWishes = async (req, res) => {
 const getParentWishes = async (req, res) => {
   try {
     const userId = req.session.userId;
-    console.log("parentId: " + userId);
     const wishes = await wishModel
       .find({ parent: userId })
+      .populate("kid")
       .sort({ createTime: -1 });
 
     res.status(200).send({ data: wishes });
