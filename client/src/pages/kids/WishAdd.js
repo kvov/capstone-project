@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from "react-router-dom";
 import { notification } from 'antd';
-import leftArrow from "../../images/left-arrow.png";
+import Navbar from '../../components/Navbar';
 import './WishAdd.css';
 
 class WishAdd extends Component {
@@ -87,18 +87,12 @@ class WishAdd extends Component {
         const { wishDescription, wishCost } = this.state;
         return (
             <div className="wish-add-page">
-                <div className="wish-add__title-bar">
-                    <Link to="/wishList" className="wish-add__back-arrow">
-                        <img src={leftArrow} alt="Back" />
-                    </Link>
-                    <label className="wish-add-title-bar__center-title">
-                        {window.localStorage.username}
-                    </label>
-                    <label className="wish_list_add"></label>
-                </div>
-                <div className="wish-add-page__title">Add Wish</div>
+                <Navbar username={window.localStorage.username} />
+                
+                <div className="page-title">Add Wish</div>
                 <div className="wish_add_form">
-                    <div>
+                    <div className="wish_add_form__inner">
+                        
                         <input
                             value={wishDescription}
                             type="text"
@@ -107,8 +101,6 @@ class WishAdd extends Component {
                             placeholder="Wish Description"
                             onChange={this.handleChange}
                         />
-                    </div>
-                    <div>
                         <input
                             value={wishCost}
                             type="number"
@@ -117,20 +109,21 @@ class WishAdd extends Component {
                             placeholder="Wish Cost"
                             onChange={this.handleChange}
                         />
-                    </div>
-                    <div className="wish_add_buttons">
-                        <button
-                            className="wish_add_save"
-                            onClick={this.handleWishSave}
-                        >
-                            Save
-                        </button>
-                        <button
-                            className="wish_add_cancel"
-                            onClick={() => this.props.history.push('/wishList')}
-                        >
-                            Cancel
-                        </button>
+                        
+                        <div className="wish_add_buttons">
+                            <button
+                                className="wish_add_save"
+                                onClick={this.handleWishSave}
+                            >
+                                Save
+                            </button>
+                            <button
+                                className="wish_add_cancel"
+                                onClick={() => this.props.history.push('/wishList')}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import "../style.css";
 import "./TaskAdd.css";
-import leftArrow from "../../images/left-arrow.png";
+import Navbar from "../../components/Navbar";
 import { notification } from "antd";
 
 class TaskAdd extends Component {
@@ -107,18 +107,10 @@ class TaskAdd extends Component {
     const { taskDescription, taskCost, dueDate, kid, kids } = this.state;
     return (
       <div className="task-add-page">
-        <div className="task_title_bar">
-          <Link to="/tasks" className="task__back_arrow">
-            <img src={leftArrow} alt="" />
-          </Link>
-          <label className="task_title_bar_center_title">
-            {window.localStorage.username}
-          </label>
-          <label className="task_list_add"></label>
-        </div>
-        <div className="task-add-page__title">Add Task</div>
+        <Navbar username={window.localStorage.username} />
+        <div className="page-title">Add Task</div>
         <div className="task_add_form">
-          <div>
+          <div className="task_add_form__inner">
             <input
               value={taskDescription}
               type="text"
@@ -128,8 +120,7 @@ class TaskAdd extends Component {
                 this.setState({ taskDescription: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
             <input
               value={taskCost}
               type="number"
@@ -139,8 +130,8 @@ class TaskAdd extends Component {
                 this.setState({ taskCost: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
+          
             <input
               value={dueDate}
               type="date"
@@ -151,8 +142,8 @@ class TaskAdd extends Component {
                 this.setState({ dueDate: e.target.value });
               }}
             />
-          </div>
-          <div>
+          
+          
             <select
               value={kid}
               className="task_add_item"
@@ -167,7 +158,7 @@ class TaskAdd extends Component {
                 </option>
               ))}
             </select>
-          </div>
+          
 
           <div className="task_add_buttons">
             <button
@@ -184,6 +175,7 @@ class TaskAdd extends Component {
             </button>
           </div>
         </div>
+      </div>
       </div>
     );
   }

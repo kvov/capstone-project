@@ -3,8 +3,7 @@ import axios from "axios";
 import { Link, withRouter } from "react-router-dom";
 import "./KidTasks.css";
 import Wallet from "../../components/Wallet";
-import leftArrow from "../../images/left-arrow.png";
-import removeBtn from "../../images/remove.png";
+import Navbar from "../../components/Navbar";
 import execute from "../../images/angel.png";
 import lose from "../../images/devil.png";
 import { notification } from "antd";
@@ -79,14 +78,8 @@ class KidTasks extends Component {
     const { username, tasks } = this.state;
     return (
       <div className="task-page">
-        <div className="task_title_bar">
-          <Link to="/" className="task__back_arrow">
-            <img src={leftArrow} alt="" />
-          </Link>
-          <label className="task_title_bar_center_title">{username}</label>
-        </div>
-        
-        <div className="task-page__title">Tasks</div>
+        <Navbar username={username} />        
+        <div className="page-title">Tasks</div>
 
         <Wallet />
 
@@ -105,20 +98,14 @@ class KidTasks extends Component {
                     <button className="task-item__execute-task-btn" onClick={() => this.executeTask(task)}>
                       <img src={execute} alt="Execute" className="execute-task-btn__image" />
                     </button>
-                    <span className="task-btn-label">Done</span>
+                    <span className="task-btn-label done">Done</span>
                   </div>
                   <div className="task-card__action-item">
                     <button className="task-item__lose-task-btn" onClick={() => this.loseTask(task)}>
                       <img src={lose} alt="Lose" className="lose-task-btn__image" />
                     </button>
-                    <span className="task-btn-label">Failed</span>
+                    <span className="task-btn-label failed">Failed</span>
                   </div>
-                  {/* <div className="task-card__action-item">
-                    <button className="task-item__remove-from-list" onClick={() => this.deleteTask(task._id)}>
-                      <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
-                    </button>
-                    <span className="task-btn-label">Delete</span>
-                  </div> */}
                 </div>
               </div>
             ))}

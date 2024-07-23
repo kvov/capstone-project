@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Wallet from "../../components/Wallet";
 import "./WishList.css";
-import leftArrow from "../../images/left-arrow.png";
+import Navbar from "../../components/Navbar";
 import removeBtn from "../../images/remove.png";
 import executeBtn from "../../images/tick.png";
 import { notification } from "antd";
@@ -94,14 +94,9 @@ class WishList extends Component {
         const { username, wishes, congratsModalIsOpen } = this.state;
         return (
             <div className="wish-page">
-                <div className="wish-title-bar">
-                    <Link to="/" className="wish__back-arrow">
-                        <img src={leftArrow} alt="" />
-                    </Link>
-                    <label className="wish-title-bar__center-title">{username}</label>
-                </div>
+                <Navbar username={username} />
 
-                <div className="wish-page__title">Manage Wishes</div>
+                <div className="page-title">Manage Wishes</div>
 
                 <Wallet />
 
@@ -126,8 +121,8 @@ class WishList extends Component {
                     </Link>
                 </div>
 
-                <div className="wish-page__task-list-div">
-                    <div className="wish-page__task-list">
+                <div className="wish-page__wish-list-div">
+                    <div className="wish-page__wish-list">
                         {wishes.map((wish) => (
                             <div className="wish-card" key={wish._id}>
                                 <div className="wish-card__content">
@@ -142,14 +137,14 @@ class WishList extends Component {
                                             <button className="wish-item__execute-wish-btn" onClick={() => this.executeWish(wish._id)}>
                                                 <img src={executeBtn} alt="Execute" className="execute-wish-btn__image" />
                                             </button>
-                                            <span className="wish-btn-label">Done</span>
+                                            <span className="wish-btn-label done">Done</span>
                                         </div>
                                     )}
                                     <div className="wish-card__action-item">
                                         <button className="wish-item__remove-from-list" onClick={() => this.deleteWish(wish._id)}>
                                             <img src={removeBtn} alt="Remove" className="remove-btn__image" />
                                         </button>
-                                        <span className="wish-btn-label">Delete</span>
+                                        <span className="wish-btn-label delete">Delete</span>
                                     </div>
                                 </div>
                             </div>
