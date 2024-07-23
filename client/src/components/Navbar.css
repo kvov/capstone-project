@@ -24,10 +24,13 @@
 }
 .navbar__title {
     color: #fce23c;
-    flex: 1;
-    font-size: 2.4rem;
-    font-weight: 500;
-    letter-spacing: 2px;
+    font-family: "Nunito";
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 2.5625rem;
+    letter-spacing: 0.125rem;
+    margin: 1.25rem auto;
+    text-align: center;
 }
 
 
