@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import Wallet from "../../components/Wallet";
 import "./ParentWishes.css";
 import leftArrow from "../../images/left-arrow.png";
-import finishedImg from "../../images/completed.png";
-import executeBtn from "../../images/tick.png";
+import finishedImg from "../../images/tick.png";
+import waitingImg from "../../images/waiting.png";
 import { notification } from "antd";
 import Lottie from "lottie-react-web";
 import animation from "../../fireworks.json";
@@ -42,6 +42,7 @@ class ParentWishList extends Component {
       this.setState({
         wishes: result.data.data,
       });
+      console.log("reuslt: " + JSON.stringify(result.data.data));
     } catch (e) {
       console.log("reuslt: " + e.message);
       notification.error({
@@ -51,35 +52,11 @@ class ParentWishList extends Component {
     }
   }
 
-  // Fulfill a specific wish
-  async completeWish(wishId) {
-    console.log("Executing wish with ID:", wishId);
-    try {
-      const kidId = window.localStorage.id;
-      console.log("Kid ID:", kidId);
-      await axios.post(`/api/wish/fulfill/${wishId}`);
-      this.setState({ congratsModalIsOpen: true });
-      this.loadWishes(kidId);
-    } catch (e) {
-      notification.error({
-        message: e.response?.data?.msg || "Error fulfilling wish",
-        title: "Error",
-      });
-    }
-  }
-
   render() {
     const { username, wishes, congratsModalIsOpen } = this.state;
     return (
       <div className="wish-page">
-        {/* <div className="wish-title-bar">
-          <Link to="/" className="wish__back-arrow">
-            <img src={leftArrow} alt="" />
-          </Link>
-          <label className="wish-title-bar__center-title">{username}</label>
-        </div> */}
         <Navbar username={username} />
-
         <div className="page-title">Manage Wishes</div>
 
         <div className="wish-page__task-list-div">
@@ -109,17 +86,14 @@ class ParentWishList extends Component {
                     </div>
                   ) : (
                     <div className="wish-card__action-item">
-                      <button
-                        className="wish-item__execute-wish-btn"
-                        onClick={() => this.completeWish(wish._id)}
-                      >
+                      <div className="wish-item__execute-wish-btn">
                         <img
-                          src={executeBtn}
+                          src={waitingImg}
                           alt="Execute"
                           className="execute-wish-btn__image"
                         />
-                      </button>
-                      <span className="wish-btn-label">Done</span>
+                      </div>
+                      <span className="wish-btn-label">On The Way</span>
                     </div>
                   )}
                 </div>
