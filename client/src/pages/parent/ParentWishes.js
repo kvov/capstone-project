@@ -59,8 +59,8 @@ class ParentWishList extends Component {
         <Navbar username={username} />
         <div className="page-title">Manage Wishes</div>
 
-        <div className="wish-page__task-list-div">
-          <div className="wish-page__task-list">
+        <div className="wish-page__wish-list-div">
+          <div className="wish-page__wish-list">
             {wishes.map((wish) => (
               <div className="wish-card" key={wish._id}>
                 <div className="wish-card__content">

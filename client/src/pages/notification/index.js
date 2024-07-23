@@ -78,7 +78,7 @@ class KidList extends Component {
   render() {
     const { username, notifications } = this.state;
     return (
-      <div>
+      <div className="notification-page">
         <Navbar username={username} />
         <div className="page-title">Notification</div>
         {notifications.map((n) => (
