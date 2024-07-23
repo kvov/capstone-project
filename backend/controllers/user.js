@@ -114,12 +114,14 @@ const createKidNotification = async (kid, content) => {
   return await kidNotificationModel.create({
     kid,
     content,
+    created_at: new Date(),
   });
 };
 const createParentNotification = async (parent, content) => {
   return await parentNotificationModel.create({
     parent,
     content,
+    created_at: new Date(),
   });
 };
 

@@ -8,6 +8,7 @@ const ParentNotification = new Schema({
     require: true,
   },
   content: String,
+  created_at: Date,
 });
 
 module.exports = mongoose.model("ParentNotification", ParentNotification);

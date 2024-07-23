@@ -7,6 +7,7 @@ const kidNotification = new Schema({
     ref: "Kid",
     required: true,
   },
+  created_at: Date,
   content: String,
 });
 
