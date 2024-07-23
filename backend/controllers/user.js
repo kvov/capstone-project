@@ -258,6 +258,18 @@ const getWishes = async (req, res) => {
   }
 };
 
+const getParentWishes = async (req, res) => {
+  try {
+    const userId = req.session.userId;
+    console.log("parentId: " + userId);
+    const wishes = await wishModel.find({ parent: userId });
+
+    res.status(200).send({ data: wishes });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+
 const getKidWishes = async (req, res) => {
   try {
     const kidId = req.params.id;
@@ -297,6 +309,7 @@ const deleteWish = async (req, res) => {
 
 const fulfillWish = async (req, res) => {
   try {
+    const userId = req.session.userId;
     const wishId = req.params.id;
 
     // Check if the wish exists
@@ -305,10 +318,15 @@ const fulfillWish = async (req, res) => {
       throw new Error("Wish not found");
     }
 
+    console.log("wish: " + JSON.stringify(wish))
+    console.log("user id:" + userId)
     // Check if the wish belongs to the kid making the request
-    if (wish.kid.toString() !== req.body.kid) {
+    if (wish.kid.toString() !== userId && wish.parent.toString() !== userId) {
       return res.status(403).send({ msg: "Not authorized to execute this wish" });
     }
+    
+    // TODO check if the coin in the kid's wallet is enough.
+    // const kid = kidModel.findById(wish.kid)
 
     // Mark the wish as fulfilled
     wish.isFulfilled = true;
@@ -334,6 +352,7 @@ module.exports = {
   "[GET] /kidWishes/:id": getKidWishes,
   "[POST] /wish": saveWish,
   "[GET] /wishes": getWishes,
+  "[GET] /parentWishes": getParentWishes,
   "[DELETE] /wish/:id": deleteWish,
   "[POST] /wish/fulfill/:id": fulfillWish,
   "[GET] /logout": logout,

@@ -1,0 +1,201 @@
+.wish__back-arrow {
+    margin: auto;
+    width: 40px;
+}
+
+.wish-title-bar {
+    display: flex;
+    background-color: #624dd6;
+    padding: 10px;
+    overflow: hidden;
+    width: 100vw;
+    box-sizing: border-box;
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    z-index: 1000;
+}
+.wish-title-bar__center-title {
+    color: #fce23c;
+    flex: 1;
+    font-size: 30px;
+    font-weight: 500;
+    letter-spacing: 2px;
+    text-align: center;
+    padding-right: 40px;
+}
+.wish-page {
+    display: flex;
+    flex-direction: column;
+    width:100%;
+    overflow: hidden;
+    height: 100vh;
+}
+.wish-page__title {
+    color: #624DD6;
+    margin-top: 70px;
+    font-family: 'Nunito';
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-align: center; 
+}
+
+.wish-page__add-wish-button-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.wish-page__add-wish-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    width: 240px;
+    height: 50px;
+    border-radius: 20px;
+    border: none;
+    font-family: 'Nunito';
+    font-weight: 900;
+    font-size: 20px;
+    text-align: center;
+    outline: none;
+    background-color: #62c052;
+    color: #624DD6;
+    background-image: linear-gradient(-180deg, #62C052 0%, #62C052 100%);
+    box-shadow: 0 0.2rem 0.3rem 0 rgba(8, 80, 8, 0.5), 0 -0.25rem 1.5rem 
+                                #62C052 inset, 0 0.75rem 0.5rem 
+                                rgba(255,255,255, 0.4) inset, 0 0.25rem 0.5rem 0 
+                                rgb(70, 207, 123) inset;
+}
+
+.congrats-modal {
+    width: 100vw;
+    height: 100vh; 
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.congrats-modal__text {
+    position: absolute;
+    width: 96%;
+    height: 88px;
+    left: 0;
+    top: 100px;
+    font-family: 'Nunito';
+    font-weight: 800;
+    font-size: 32px;
+    line-height: 49px;
+    text-align: center;
+    color: #624DD6;
+    animation: neonAnim 1s alternate-reverse infinite;
+}
+
+.congrats-modal__close-btn {
+    position: absolute;
+    bottom: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+@keyframes neonAnim {
+    from {
+        text-shadow:
+            0 0 19px rgba(98, 77, 214, .7),
+            0 0 49px rgba(98, 77, 214, .7),
+            0 0 109px rgba(98, 77, 214, .7);
+    }
+    to {
+        text-shadow:
+            0 0 14px rgba(98, 77, 214, .7),
+            0 0 29px rgba(98, 77, 214, .7),
+            0 0 69px rgba(98, 77, 214, .7);
+    }
+}
+
+.wish-page__task-list-div {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.wish-page__task-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 0;
+    justify-content: center;
+}
+
+.wish-card {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+    padding: 8px;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+}
+
+.wish-card__content {
+    margin-bottom: 0;
+}
+
+.wish-card__description {
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 20px;
+    color: #624DD6;
+    margin: 0;
+}
+
+.wish-card__details {
+    font-family: 'Nunito';
+    font-weight: 400;
+    font-size: 16px;
+    color: #333333;
+    margin: 0;
+}
+
+.wish-card__actions {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.wish-item__execute-wish-btn,
+.wish-item__remove-from-list {
+    border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0;
+}
+
+.execute-wish-btn__image,
+.remove-btn__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+

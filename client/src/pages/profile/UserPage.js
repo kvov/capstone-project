@@ -98,7 +98,7 @@ class UserPage extends Component {
               className="style_common_button style_common_button_green"
               type="submit"
             >
-              <Link to="/wishes">See Wishes</Link>
+              <Link to="/parentWishes">See Wishes</Link>
             </button>
             
             <button

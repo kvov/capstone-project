@@ -5,6 +5,7 @@ import SignUpPage from "./pages/signup/SignUpPage";
 import UserPage from "./pages/profile/UserPage";
 import KidList from "./pages/parent/KidList";
 import KidAdd from "./pages/parent/KidAdd";
+import ParentWishList from "./pages/parent/ParentWishes"; 
 import TaskList from "./pages/parent/TaskList";
 import TaskAdd from "./pages/parent/TaskAdd";
 import KidTasks from "./pages/kids/KidTasks";
@@ -27,10 +28,12 @@ class App extends React.Component {
         <Route path="/tasks" exact component={TaskList} />
         <Route path="/taskAdd" exact component={TaskAdd} />
         <Route path="/kidTasks" exact component={KidTasks}/>
+        <Route path="/parentWishes" exact component={ParentWishList} />
         <Route path="/taskSuccess" component={TaskSuccess} />
         <Route path="/taskFail" component={TaskFail} />
         <Route path="/wishList" exact component={WishList} /> 
         <Route path="/wishAdd" exact component={WishAdd} />
+        
       </div>
     );
   }
