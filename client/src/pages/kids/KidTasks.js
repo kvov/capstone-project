@@ -32,6 +32,7 @@ class KidTasks extends Component {
       this.setState({
         tasks: result.data.data,
       });
+      console.log("kid tasks: " + JSON.stringify(result.data.data));
     } catch (e) {
       notification.error({
         message: e.response.data.msg,

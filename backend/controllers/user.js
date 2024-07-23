@@ -174,7 +174,7 @@ const getKidTasks = async (req, res) => {
   try {
     // const parentId = req.session.userId;
     const kidId = req.params.id;
-    const tasks = await taskModel.find({ kid: kidId }).populate("kid");
+    const tasks = await taskModel.find({ kid: kidId }).populate("kid").sort({"createTime": -1});
 
     // Format the dueDate to remove time part
     const formattedTasks = tasks.map((task) => {
@@ -250,7 +250,7 @@ const saveWish = async (req, res) => {
 const getWishes = async (req, res) => {
   try {
     const parentId = req.session.userId;
-    const wishes = await wishModel.find({ parent: parentId }).populate("kid");
+    const wishes = await wishModel.find({ parent: parentId }).populate("kid").sort({"createTime": -1});
 
     res.status(200).send({ data: wishes });
   } catch (e) {
@@ -262,7 +262,7 @@ const getParentWishes = async (req, res) => {
   try {
     const userId = req.session.userId;
     console.log("parentId: " + userId);
-    const wishes = await wishModel.find({ parent: userId });
+    const wishes = await wishModel.find({ parent: userId }).sort({"createTime": -1});
 
     res.status(200).send({ data: wishes });
   } catch (e) {

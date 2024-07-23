@@ -23,6 +23,10 @@ const wishSchema = new Schema({
         type: Boolean,
         default: false,
     },
+    createTime: {
+        type: Date,
+        default: Date.now
+    },
 });
 
 module.exports = mongoose.model("Wish", wishSchema);
