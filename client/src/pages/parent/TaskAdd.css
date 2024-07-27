@@ -44,6 +44,27 @@
     color: #624dd6; 
 }
 
+.recurrence-section {
+    font-size: 1.6rem;
+    color: #624dd6;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.recurrence-label {
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 500;
+    margin-right: 10px;
+    
+}
+.recurrence-section select {
+    font-size: 1.6rem;
+    color: #624dd6;
+}
+
 .task_add_buttons {
     display: flex;
     flex-direction: column;

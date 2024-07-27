@@ -72,6 +72,25 @@ class TaskList extends Component {
     });
   }
 
+  renderRecurrence(recurrence) {
+    if (!recurrence) return "";
+  
+    const { frequency, interval, daysOfWeek } = recurrence;
+    const intervalText = interval === 1
+      ? (frequency === 'daily' ? 'day' : 'week')
+      : (frequency === 'daily' ? 'days' : 'weeks');
+  
+    let recurrenceText = `${frequency},<br />every ${interval} ${intervalText}`;
+    
+    if (daysOfWeek && daysOfWeek.length > 0) {
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const days = daysOfWeek.map(day => dayNames[day]).join(", ");
+      recurrenceText += `<br />on ${days}`;
+    }
+  
+    return recurrenceText;
+  }
+
   render() {
     const { username, tasks } = this.state;
     console.log(tasks);
@@ -101,6 +120,11 @@ class TaskList extends Component {
                   </p>
                   <p className="task-card__details">
                     Due: {new Date(task.dueDate).toISOString().split('T')[0]} 
+                  </p>
+                  <p className="task-card__details">
+                    {this.renderRecurrence(task.recurrence) ? (
+                      <span dangerouslySetInnerHTML={{ __html: `Recurrence: ${this.renderRecurrence(task.recurrence)}` }} />
+                    ) : ""}
                   </p>
                 </div>
                 <div className="task-card__actions">

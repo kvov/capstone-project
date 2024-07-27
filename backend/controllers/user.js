@@ -6,6 +6,7 @@ const kidNotificationModel = require("../models/notification/kid");
 const parentNotificationModel = require("../models/notification/parent");
 
 const bcrypt = require("bcrypt");
+const moment = require("moment"); 
 
 const saveParent = async (req, res) => {
   try {
@@ -15,7 +16,6 @@ const saveParent = async (req, res) => {
     }
     const profilePicture = req.body.profilePicture || "";
 
-    // const { username } = await parentModel.create(req.body);
     const { username } = await parentModel.create({
       ...req.body,
       profilePicture,
@@ -47,8 +47,6 @@ const saveKid = async (req, res) => {
     if (!parent) {
       throw new Error("Not a valid parent");
     }
-
-    // const { username } = await kidModel.create(req.body);
 
     const profilePicture = req.body.profilePicture || "";
 
@@ -88,7 +86,6 @@ const deleteKid = async (req, res) => {
   }
 };
 
-
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -127,6 +124,7 @@ const login = async (req, res) => {
     res.status(400).send({ msg: "Username do not exist or wrong password" });
   }
 };
+
 const logout = async (req, res) => {
   try {
     req.session.destroy();
@@ -153,32 +151,27 @@ const createParentNotification = async (parent, content) => {
 //task methods
 const saveTask = async (req, res) => {
   try {
-    const { parent, kid, taskDescription, taskCost, dueDate } = req.body;
+    const { parent, kid, taskDescription, taskCost, dueDate, recurrence } = req.body;
 
-    // Validate required fields
     if (!taskDescription || !taskCost || !dueDate || !kid) {
       throw new Error("All fields are required");
     }
 
-    // Validate taskCost
     if (isNaN(taskCost) || taskCost <= 0) {
       throw new Error("Task cost must be a positive number");
     }
 
-    // Validate dueDate
     const selectedDate = new Date(dueDate);
     const today = new Date();
     if (selectedDate <= today) {
       throw new Error("Due date must be in the future");
     }
 
-    // Validate parent
     const parentDoc = await parentModel.findById(parent);
     if (!parentDoc) {
       throw new Error("Not a valid parent");
     }
 
-    // Validate kid
     const kidDoc = await kidModel.findById(kid);
     if (!kidDoc || kidDoc.parent.toString() !== parentDoc.id.toString()) {
       throw new Error("Not a valid kid");
@@ -191,11 +184,52 @@ const saveTask = async (req, res) => {
       taskDescription,
       taskCost,
       dueDate,
+      recurrence,
     });
+
     await createKidNotification(
       kid,
-      `Your parent create new task for you:${taskDescription}`
+      `Your parent created new task for you: ${taskDescription}`
     );
+
+    // Create recurring tasks
+    if (recurrence && recurrence.frequency && recurrence.interval) {
+      const { frequency, interval, daysOfWeek } = recurrence;
+      let nextDate = moment(selectedDate);
+
+      while (nextDate.isBefore(moment().add(1, 'year'))) {
+        if (frequency === 'daily') {
+          nextDate.add(interval, 'days');
+        } else if (frequency === 'weekly') {
+          nextDate.add(interval, 'weeks');
+        } else if (frequency === 'monthly') {
+          nextDate.add(interval, 'months');
+        }
+
+        if (nextDate.isAfter(moment().add(1, 'year'))) break;
+
+        // Check if nextDate falls on one of the specified days of the week
+        if (daysOfWeek && !daysOfWeek.includes(nextDate.day())) {
+          continue;
+        }
+
+        await taskModel.create({
+          parent,
+          kid,
+          taskDescription,
+          taskCost,
+          dueDate: nextDate.toDate(),
+          recurrence,
+        });
+
+        // Notify the kid about each recurring task
+        await createKidNotification(
+          kid,
+          `Recurring task created for you: ${taskDescription}, due on ${nextDate.format('YYYY-MM-DD')}`
+        );
+      }
+    }
+
     res.status(200).send({ data: task });
   } catch (e) {
     res.status(400).send({ msg: e.message });
@@ -212,6 +246,7 @@ const getTasks = async (req, res) => {
       return {
         ...task._doc,
         dueDate: task.dueDate.toISOString().split("T")[0],
+        recurrence: task.recurrence || null,
       };
     });
 
@@ -235,6 +270,7 @@ const getKidTasks = async (req, res) => {
       return {
         ...task._doc,
         dueDate: task.dueDate.toISOString().split("T")[0],
+        recurrence: task.recurrence || null,
       };
     });
 
@@ -259,8 +295,20 @@ const deleteTask = async (req, res) => {
       throw new Error("Not authorized to delete this task");
     }
 
-    // Delete the task
+    // Handle recurring tasks
+    if (task.recurrence) {
+      // Assuming you want to delete all tasks that are recurring based on this one
+      await taskModel.deleteMany({
+        parent: task.parent,
+        kid: task.kid,
+        taskDescription: task.taskDescription,
+        createTime: { $gte: task.createTime }, // Delete all recurring tasks from the time this task was created
+      });
+    }
+
+    // Delete the original task
     await taskModel.findByIdAndDelete(taskId);
+
     res.status(200).send({ msg: "Task deleted successfully" });
   } catch (e) {
     res.status(400).send({ msg: e.message });

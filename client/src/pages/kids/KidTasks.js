@@ -41,23 +41,6 @@ class KidTasks extends Component {
     }
   }
 
-  async deleteTask(taskId) {
-    console.log("Deleting task with ID:", taskId);  
-    try {
-      await axios.delete(`/api/task/${taskId}`);
-      notification.success({
-        message: "Task deleted successfully",
-        title: "Success",
-      });
-      this.loadTasks(window.localStorage.id); 
-    } catch (e) {
-      console.error("Error details:", e);  
-      notification.error({
-        message: e.response ? e.response.data.msg : 'Error deleting task',
-        title: "Error",
-      });
-    }
-  }
 
   executeTask(task) {
     const { username } = this.state;
@@ -73,6 +56,25 @@ class KidTasks extends Component {
       pathname: '/taskFail',
       state: { taskPrice: task.taskCost, username }
     });
+  }
+
+  renderRecurrence(recurrence) {
+    if (!recurrence) return "";
+
+    const { frequency, interval, daysOfWeek } = recurrence;
+    const intervalText = interval === 1
+      ? (frequency === 'daily' ? 'day' : 'week')
+      : (frequency === 'daily' ? 'days' : 'weeks');
+
+    let recurrenceText = `${frequency},<br />every ${interval} ${intervalText}`;
+    
+    if (daysOfWeek && daysOfWeek.length > 0) {
+      const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+      const days = daysOfWeek.map(day => dayNames[day]).join(", ");
+      recurrenceText += `<br />on ${days}`;
+    }
+
+    return recurrenceText;
   }
 
   render() {
@@ -93,6 +95,9 @@ class KidTasks extends Component {
                   <p className="task-card__details">
                     {task.taskCost} coins | Due: {new Date(task.dueDate).toISOString().split('T')[0]} | Kid: {task.kid.username}
                   </p>
+                  {this.renderRecurrence(task.recurrence) && (
+                    <p className="task-card__details" dangerouslySetInnerHTML={{ __html: this.renderRecurrence(task.recurrence) }} />
+                  )}
                 </div>
                 <div className="task-card__actions">
                   <div className="task-card__action-item">

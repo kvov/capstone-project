@@ -24,6 +24,21 @@ const taskSchema = new Schema({
     type: Date,
     required: true,
   },
+  recurrence: {
+    type: {
+      frequency: {
+        type: String, // e.g., "daily", "weekly", "monthly"
+        required: true,
+      },
+      interval: {
+        type: Number, // e.g., every 1 week, every 2 weeks
+        required: true,
+      },
+      daysOfWeek: {
+        type: [Number], // e.g., [1, 3, 5] for Monday, Wednesday, Friday
+      },
+    },
+  },
   createTime: {
       type: Date,
       default: Date.now

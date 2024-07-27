@@ -30,7 +30,7 @@ class KidList extends Component {
     console.log("load data");
     try {
       let result = await axios.get("/api/kids");
-      // console.log("result: " + JSON.stringify(result));
+      console.log("result: " + JSON.stringify(result));
       this.setState({
         kids: result.data.data,
       });
@@ -89,8 +89,8 @@ class KidList extends Component {
           <div className="kid-page__kid-list">
             {kids.map((kid) => (
               <div className="kid-card" key={kid._id}>
-                <button className="task-item__remove-from-list" onClick={() => this.handleDeleteKid(kid._id)}>
-                  <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
+                <button className="kid-item__remove-from-list" onClick={() => this.handleDeleteKid(kid._id)}>
+                  <img src={removeBtn} alt="Remove" className="kid-remove-btn__image" />
                 </button>
                 <div className="kid-card__content">                    
                   <div className="kid-card__photo-wrapper">
