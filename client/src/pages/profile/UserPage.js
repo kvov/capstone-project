@@ -14,7 +14,7 @@ class UserPage extends Component {
       this.setState({
         username: localStorage.username,
         role: localStorage.role,
-        profilePicture: localStorage.profilePicture || profile, // Ensure profilePicture is loaded from localStorage
+        profilePicture: localStorage.profilePicture || profile, 
       });
     }
   }

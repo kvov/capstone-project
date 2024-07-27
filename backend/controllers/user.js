@@ -64,6 +64,31 @@ const saveKid = async (req, res) => {
   }
 };
 
+const deleteKid = async (req, res) => {
+  try {
+    const kidId = req.params.id;
+
+    // Check if the kid exists
+    const kid = await kidModel.findById(kidId);
+    if (!kid) {
+      return res.status(404).send({ msg: "Kid not found" });
+    }
+
+    // Check if the kid belongs to the parent making the request
+    const parentId = req.session.userId;
+    if (kid.parent.toString() !== parentId) {
+      return res.status(403).send({ msg: "Not authorized to delete this kid" });
+    }
+
+    // Delete the kid
+    await kidModel.findByIdAndDelete(kidId);
+    res.status(200).send({ msg: "Kid deleted successfully" });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
+};
+
+
 const login = async (req, res) => {
   try {
     const { username, password } = req.body;
@@ -399,6 +424,7 @@ module.exports = {
   "[POST] /signup": saveParent,
   "[POST] /kid": saveKid,
   "[GET] /kids": getKids,
+  "[DELETE] /kid/:id": deleteKid,
   "[POST] /task": saveTask,
   "[GET] /tasks": getTasks,
   "[GET] /kidTasks/:id": getKidTasks,

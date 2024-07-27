@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Navbar from "../../components/Navbar";
 import profile from "../../images/user.png";
+import removeBtn from "../../images/remove.png";
 import { notification } from "antd";
 import "./KidList.css";
 import "../style.css";
@@ -41,6 +42,29 @@ class KidList extends Component {
     }
   }
 
+  async handleDeleteKid(kidId) {
+    // Display a confirmation dialog
+    const confirmDelete = window.confirm("Are you sure you want to delete this kid?");
+    if (!confirmDelete) {
+      return; 
+    }
+
+    try {
+      await axios.delete(`/api/kid/${kidId}`);
+      this.loadData(); // Reload data after deleting
+      notification.success({
+        message: "Kid deleted successfully!",
+        title: "",
+      });
+    } catch (e) {
+      notification.error({
+        message: e.response.data.msg,
+        title: "Error",
+      });
+    }
+  }
+  
+
   showKidDetails() {
     notification.info({
       message: "Developing...",
@@ -65,12 +89,21 @@ class KidList extends Component {
           <div className="kid-page__kid-list">
             {kids.map((kid) => (
               <div className="kid-card" key={kid._id}>
-                <div className="kid-card__content">
-                  <img
-                    src={profile}
-                    alt="Kid Profile"
-                    className="kid-card__photo"
-                  />
+                <button className="task-item__remove-from-list" onClick={() => this.handleDeleteKid(kid._id)}>
+                  <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
+                </button>
+                <div className="kid-card__content">                    
+                  <div className="kid-card__photo-wrapper">
+                    {kid.profilePicture ? (
+                      <img
+                        className="kid-card__photo"
+                        src={kid.profilePicture}
+                        alt="Kid Profile"
+                      />
+                    ) : (
+                      <img src={profile} alt="Default Profile" className="kid-card__photo" />
+                    )}
+                  </div>
                   <div className="kid-card__details">
                     <p className="kid-card__username">{kid.username}</p>
                     <p className="kid-card__coins">0 Coins</p>
@@ -83,6 +116,7 @@ class KidList extends Component {
                   >
                     Details
                   </button>
+                  
                 </div>
               </div>
             ))}

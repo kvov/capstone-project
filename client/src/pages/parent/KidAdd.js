@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import "../style.css";
 import "./KidAdd.css";
 import Navbar from "../../components/Navbar";
@@ -23,8 +23,19 @@ class KidAdd extends Component {
       kidNick: "",
       kidDob: "",
       kidPass: "",
+      profilePicture: null,
     };
   }
+
+  handleFileUpload = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    reader.addEventListener('load', () => {
+      this.setState({ profilePicture: reader.result });
+    });
+    reader.readAsDataURL(file);
+  };
 
   cancelKidAdd() {
     this.props.history.replace("/kids");
@@ -79,7 +90,7 @@ class KidAdd extends Component {
       return;
     }
 
-    const { username, kidName, kidNick, kidDob, kidPass } = this.state;
+    const { username, kidName, kidNick, kidDob, kidPass, profilePicture } = this.state;
 
     if (kidName && kidPass) {
       try {
@@ -89,6 +100,7 @@ class KidAdd extends Component {
           nickname: kidNick,
           dateOfBirth: kidDob,
           password: kidPass,
+          profilePicture: profilePicture,
           parent: localStorage.id,
         });
         notification.success({
@@ -115,13 +127,39 @@ class KidAdd extends Component {
   }
 
   render() {
-    const { username, kidName, kidNick, kidDob, kidPass } = this.state;
+    const { username, kidName, kidNick, kidDob, kidPass, profilePicture } = this.state;
     return (
       <div className="kid-add-page">
         <Navbar username={username} />
         <div className="page-title">Add Kid</div>
         <div className="kid_add_form">
           <div className="kid_add_form__inner">
+
+          <div className="user-data__photo-upload">
+            <input
+              style={{ display: 'none' }}
+              type="file"
+              accept=".jpg, .png, .jpeg"
+              className="user-data__photo"
+              onChange={this.handleFileUpload}
+              ref={fileInput => this.fileInput = fileInput}
+            />
+            {!profilePicture ? (
+              <button
+                className="user-data__photo"
+                onClick={() => this.fileInput.click()}
+              >
+                Select Photo
+              </button>
+            ) : (
+              <img
+                className="user-data__photo"
+                src={profilePicture}
+                alt="Profile"
+              />
+            )}
+          </div>
+
             <input
               value={kidName}
               type="text"
@@ -149,7 +187,7 @@ class KidAdd extends Component {
               type="date"
               className="kid_add_item kid_add_item__dob"
               placeholder="Your kid's date of birth"
-              max={new Date().toISOString().split("T")[0]} // Set max date to today
+              max={new Date().toISOString().split("T")[0]} 
               onChange={(e) => {
                 this.setState({ kidDob: e.target.value });
               }}
