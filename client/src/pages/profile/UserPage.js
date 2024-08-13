@@ -3,10 +3,11 @@ import "../style.css";
 import "./UserPage.css";
 import { Link } from "react-router-dom";
 import profile from "../../images/user.png";
-import { notification } from "antd";
+import { notification, Badge } from "antd";
+import axios from 'axios';
 
 class UserPage extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     let localStorage = window.localStorage;
     if (localStorage.islogin !== "1") {
       this.props.history.replace("/login");
@@ -16,6 +17,7 @@ class UserPage extends Component {
         role: localStorage.role,
         profilePicture: localStorage.profilePicture || profile, 
       });
+      await this.fetchUnreadNotifications();
     }
   }
 
@@ -26,7 +28,21 @@ class UserPage extends Component {
       username: localStorage.username,
       role: localStorage.role,
       profilePicture: profile,
+      unreadNotifications: 0,
     };
+  }
+
+  async fetchUnreadNotifications () {
+    try {
+      const response = await axios.get("api/notification/count");
+      this.setState({ unreadNotifications: response.data.count });
+      console.log(response.data.count);
+    } catch (e) {
+      notification.error({
+        message: e.response.data.msg,
+        title: "Error",
+      });
+    }
   }
 
   clickWishes = () => {
@@ -47,7 +63,7 @@ class UserPage extends Component {
   }
 
   render() {
-    const { username, profilePicture, role } = this.state;
+    const { username, profilePicture, role, unreadNotifications } = this.state;
     return (
       <div className="user-content">
         <div className="user-data__form">
@@ -72,7 +88,6 @@ class UserPage extends Component {
               className="style_common_button style_common_button_green"
               type="submit"
             >
-              {/* <Link to="/wishes">Wishes</Link> */}
               <span onClick={this.clickWishes}>Wishes</span>
             </button>
 
@@ -83,10 +98,11 @@ class UserPage extends Component {
               <Link to="/kidTasks">Tasks</Link>
             </button>
             <button
-              className="style_common_button style_common_button_green"
+              className="style_common_button style_common_button_green notification_btn"
               type="submit"
             >
-              <Link to="/notifications">Notifications</Link>
+              <Badge className="badge" count={unreadNotifications} overflowCount={99}></Badge>
+              <Link to="/notifications">Messages</Link>
             </button>
 
             <button
@@ -104,27 +120,28 @@ class UserPage extends Component {
               className="style_common_button style_common_button_green"
               type="submit"
             >
-              <Link to="/parentWishes">See Wishes</Link>
+              <Link to="/parentWishes">Wishes</Link>
             </button>
 
             <button
               className="style_common_button style_common_button_purple"
               type="submit"
             >
-              <Link to="/tasks">Add Tasks</Link>
+              <Link to="/tasks">Tasks</Link>
             </button>
 
             <button
               className="style_common_button style_common_button_blue"
               type="submit"
             >
-              <Link to="/kids">Kid List</Link>
+              <Link to="/kids">Kids</Link>
             </button>
             <button
-              className="style_common_button style_common_button_purple"
+              className="style_common_button style_common_button_purple notification_btn"
               type="submit"
             >
-              <Link to="/notifications">Notifications</Link>
+              <Badge className="badge" count={unreadNotifications} overflowCount={99}></Badge>
+              <Link to="/notifications">Messages</Link>
             </button>
 
             <button

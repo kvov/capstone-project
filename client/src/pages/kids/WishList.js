@@ -28,12 +28,27 @@ class WishList extends Component {
       this.props.history.replace("/login");
     }
     this.loadWishes(localStorage.id);
+    this.loadWallet(localStorage.id);
   }
 
   componentWillUnmount() {
     this.setState = (state, callback) => {
       return;
     };
+  }
+
+  async loadWallet(id) {
+    try {
+      let result = await axios.get(`/api/kidWallet/${id}`);
+      this.setState({
+        wallet: result.data.wallet,
+      });
+    } catch (e) {
+      notification.error({
+        message: e.response.data.msg,
+        title: "Error",
+      });
+    }
   }
 
   async loadWishes(id) {
@@ -74,16 +89,23 @@ class WishList extends Component {
     }
   }
 
-  // Fulfill a specific wish
   async executeWish(wishId) {
     console.log("Executing wish with ID:", wishId);
     try {
       const kidId = window.localStorage.id;
       console.log("Kid ID:", kidId);
-      await axios.post(`/api/wish/fulfill/${wishId}`, {
-        kid: kidId,
-      });
-      this.setState({ congratsModalIsOpen: true });
+      const response = await axios.put(`/api/wish/fulfill/${wishId}`, { kid: kidId });
+      
+      if (response.data.msg === "Wish fulfilled successfully") {
+        await this.loadWallet(kidId);
+        this.setState({ congratsModalIsOpen: true });
+      } else {
+        notification.error({
+          message: response.data.msg,
+          title: "Error",
+        });
+      }
+      
       this.loadWishes(kidId);
     } catch (e) {
       notification.error({
@@ -92,16 +114,17 @@ class WishList extends Component {
       });
     }
   }
+  
 
   render() {
-    const { username, wishes, congratsModalIsOpen } = this.state;
+    const { username, wishes, congratsModalIsOpen, wallet } = this.state;
     return (
       <div className="wish-page">
         <Navbar username={username} />
 
         <div className="page-title">Manage Wishes</div>
 
-        <Wallet />
+        <Wallet wallet={wallet} />
 
         {congratsModalIsOpen ? (
           <div className="congrats-modal">

@@ -65,10 +65,15 @@
     width: 90%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.task-card__due-soon{
+    background-color: #f8acb3;
 }
 
 .task-card__content {
-    margin-bottom: 5px;
+    margin-bottom: auto;
 }
 
 .task-card__description {
@@ -91,11 +96,22 @@
     display: flex;
     justify-content: center;
     gap: 30px;
+    margin-top: 10px;
+}
+
+.task-card__action-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 .task-item__remove-from-list,
 .task-item__execute-task-btn,
-.task-item__lose-task-btn {
+.task-item__lose-task-btn,
+.task-item__update-task-btn {
     background-color: white;
     border: none;
     border-radius: 50%;
@@ -106,11 +122,13 @@
     justify-content: center;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 .task-remove-btn__image,
 .execute-task-btn__image,
-.lose-task-btn__image {
+.lose-task-btn__image,
+.update-task-btn__image {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -125,7 +143,9 @@
 .task-btn-label.done {
     color: #28a745; 
 }
-
+.task-btn-label.update {
+    color: #624DD6; 
+}
 .task-btn-label.failed {
     color: #dc3545; 
 }

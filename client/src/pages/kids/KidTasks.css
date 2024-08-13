@@ -36,10 +36,15 @@
     width: 90%;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+}
+
+.task-card__due-soon{
+    background-color: #f8acb3;
 }
 
 .task-card__content {
-    margin-bottom: 5px;
+    margin-bottom: auto;
 }
 
 .task-card__description {
@@ -62,6 +67,7 @@
     display: flex;
     justify-content: center;
     gap: 30px;
+    margin-top: 10px;
 }
 
 .task-item__remove-from-list,

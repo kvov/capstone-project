@@ -16,6 +16,12 @@ const taskSchema = new Schema({
     type: String,
     required: true,
   },
+  taskStatus: {
+    type: String,
+    enum: ['new', 'in progress', 'completed', 'expired', 'failed', 'pending approval'], 
+    default: 'new', 
+    required: true, 
+  },
   taskCost: {
     type: Number,
     required: true,
@@ -28,11 +34,6 @@ const taskSchema = new Schema({
     type: {
       frequency: {
         type: String, // e.g., "daily", "weekly", "monthly"
-        required: true,
-      },
-      interval: {
-        type: Number, // e.g., every 1 week, every 2 weeks
-        required: true,
       },
       daysOfWeek: {
         type: [Number], // e.g., [1, 3, 5] for Monday, Wednesday, Friday
@@ -42,6 +43,9 @@ const taskSchema = new Schema({
   createTime: {
       type: Date,
       default: Date.now
+  },
+  reminderSent: {
+    type: Date
   },
 });
 

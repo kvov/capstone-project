@@ -2,7 +2,8 @@
   background-color: #fce23c;
   width: 100vw;
   height: 100vh;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .user-data__form {
@@ -65,6 +66,28 @@ a {
   text-align: center;
 }
 
+.notification_btn {
+  position: relative;
+}
+.ant-badge {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.ant-scroll-number-only-unit {
+  font-size: 1rem !important;
+}
+.ant-badge-not-a-wrapper .ant-scroll-number {
+  width: 1.2rem !important;
+  height: 1.2rem !important;
+  padding-top: 0;
+}
+
+.badge {
+  position: absolute !important;
+  top: 1px !important;
+  right: 1px !important;
+}
+
 /* Media queries for tablets */
 @media (min-width: 600px) {
 
@@ -91,6 +114,21 @@ a {
     height: 80px;
     font-size: 2rem;
     border-radius: 12px;
+  }
+
+  .ant-scroll-number-only-unit {
+    font-size: 1.6rem !important;
+  }
+  .ant-badge-not-a-wrapper .ant-scroll-number {
+    width: 2.2rem !important;
+    height: 2.2rem !important;
+    padding-top: 6px;
+  }
+  
+  .badge {
+    position: absolute !important;
+    top: 10px !important;
+    right: 10px !important;
   }
 }
 

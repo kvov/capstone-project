@@ -9,6 +9,11 @@ const kidNotification = new Schema({
   },
   created_at: Date,
   content: String,
+  status: {
+    type: String,
+    enum: ['read', 'unread'],
+    default: 'unread',
+  },
 });
 
 module.exports = mongoose.model("KidNotification", kidNotification);

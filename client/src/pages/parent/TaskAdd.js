@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
 import "../style.css";
 import "./TaskAdd.css";
 import Navbar from "../../components/Navbar";
 import { notification } from "antd";
+import moment from 'moment-timezone';
 
 class TaskAdd extends Component {
   state = {
@@ -15,7 +15,6 @@ class TaskAdd extends Component {
     kids: [],
     recurrence: {
       frequency: "",
-      interval: 1,
       daysOfWeek: [],
     },
     selectedDays: [],
@@ -42,7 +41,7 @@ class TaskAdd extends Component {
   };
 
   validateInputs = () => {
-    const { taskDescription, taskCost, dueDate, kid, recurrence } = this.state;
+    const { taskDescription, taskCost, dueDate, kid } = this.state;
 
     if (!taskDescription || !taskCost || !dueDate || !kid) {
       notification.error({
@@ -60,19 +59,15 @@ class TaskAdd extends Component {
       return false;
     }
 
-    const selectedDate = new Date(dueDate);
-    const today = new Date();
-    if (selectedDate <= today) {
-      notification.error({
-        message: "Due date must be in the future",
-        title: "Error",
-      });
-      return false;
-    }
+    const selectedDate = moment.tz(dueDate, 'America/Toronto').startOf('day').toDate();
+    const today = moment.tz('America/Toronto').startOf('day').toDate();
+    console.log("Selected Date:", selectedDate);
+    console.log("Today's Date:", today);
 
-    if (recurrence.frequency && !recurrence.daysOfWeek.length) {
+    if (selectedDate < today) {
+      
       notification.error({
-        message: "Please select days of the week for recurring tasks",
+        message: "Due date must be today or in the future",
         title: "Error",
       });
       return false;
@@ -92,6 +87,7 @@ class TaskAdd extends Component {
         parent: window.localStorage.id,
         kid,
         taskDescription,
+        taskStatus: 'new',
         taskCost,
         dueDate,
         recurrence,
@@ -118,14 +114,55 @@ class TaskAdd extends Component {
     }
   };
 
+  calculateNextDueDate = (selectedDays = this.state.selectedDays) => {
+    const { recurrence } = this.state;
+    const today = moment.tz('America/Toronto').startOf('day');
+  
+    if (recurrence.frequency === 'daily') {
+      return today.add(1, 'days').format('YYYY-MM-DD');
+    }
+  
+    if (recurrence.frequency === 'weekly') {
+      if (selectedDays.length === 0) {
+        return today.format('YYYY-MM-DD');
+      }
+  
+      let closestDate = null;
+    
+      selectedDays.forEach(day => {
+        let targetDate = today.clone().day(day);
+        if (targetDate.isBefore(today)) {
+          targetDate = targetDate.add(1, 'weeks');
+        }
+        
+        if (!closestDate || targetDate.isBefore(closestDate)) {
+          closestDate = targetDate;
+        }
+      });
+  
+      return closestDate ? closestDate.format('YYYY-MM-DD') : today.format('YYYY-MM-DD');
+    }
+  
+    return today.format('YYYY-MM-DD'); 
+  };  
+  
+
   handleRecurrenceChange = (e) => {
     const { name, value } = e.target;
-    this.setState((prevState) => ({
-      recurrence: {
+    this.setState((prevState) => {
+      const newRecurrence = {
         ...prevState.recurrence,
         [name]: value,
-      },
-    }));
+      };
+
+      // Update dueDate based on the new recurrence
+      const newDueDate = this.calculateNextDueDate();
+
+      return {
+        recurrence: newRecurrence,
+        dueDate: newDueDate,
+      };
+    });
   };
 
   handleDaySelection = (day) => {
@@ -134,18 +171,23 @@ class TaskAdd extends Component {
       const newDaysOfWeek = daysOfWeek.includes(day)
         ? daysOfWeek.filter((d) => d !== day)
         : [...daysOfWeek, day];
+
+      const newDueDate = this.calculateNextDueDate(newDaysOfWeek);
+
       return {
         recurrence: {
           ...prevState.recurrence,
           daysOfWeek: newDaysOfWeek,
         },
         selectedDays: newDaysOfWeek,
+        dueDate: newDueDate,
       };
     });
   };
 
   render() {
     const { taskDescription, taskCost, dueDate, kid, kids, recurrence, selectedDays } = this.state;
+    const today = moment.tz('America/Toronto').format('YYYY-MM-DD');
     return (
       <div className="task-add-page">
         <Navbar username={window.localStorage.username} />
@@ -171,7 +213,7 @@ class TaskAdd extends Component {
                 this.setState({ taskCost: e.target.value });
               }}
             />
-          
+
           <select
               value={kid}
               className="task_add_item"
@@ -192,7 +234,7 @@ class TaskAdd extends Component {
               type="date"
               className="task_add_item task_add_item__dob"
               placeholder="Due Date"
-              min={new Date().toISOString().split("T")[0]} 
+              min={today} 
               onChange={(e) => {
                 this.setState({ dueDate: e.target.value });
               }}

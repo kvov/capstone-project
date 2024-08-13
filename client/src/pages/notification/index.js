@@ -3,10 +3,10 @@ import axios from "axios";
 import { notification } from "antd";
 import Navbar from "../../components/Navbar";
 import dayjs from "dayjs";
-
-// import "../parent/KidList.css";
+import removeBtn from "../../images/remove.png";
 import "../style.css";
 import "./index.css";
+
 function getTimeDifferenceFromNow(isoTimestamp) {
   const now = dayjs();
   const timestamp = dayjs(isoTimestamp);
@@ -34,7 +34,7 @@ function getTimeDifferenceFromNow(isoTimestamp) {
     return `${differenceInYears} years ago`;
   }
 }
-class KidList extends Component {
+class NotificationsPage extends Component {
   componentDidMount() {
     let localStorage = window.localStorage;
     if (localStorage.islogin !== "1") {
@@ -54,12 +54,16 @@ class KidList extends Component {
 
   async loadData() {
     try {
-      let notifications = await axios.get("/api/notification");
+      let response = await axios.get("/api/notification");
+      let notifications = response.data.data;
+  
       this.setState({
-        notifications: notifications.data.data
+        notifications: notifications
           .filter((d) => !!d.created_at)
-          .sort((a, b) => dayjs(b.create_at).diff(dayjs(a.create_at))),
+          .sort((a, b) => dayjs(b.created_at).diff(dayjs(a.created_at))),
       });
+
+      await axios.put("/api/notification/read"); 
     } catch (e) {
       notification.error({
         message: e.response.data.msg,
@@ -67,12 +71,23 @@ class KidList extends Component {
       });
     }
   }
-
-  showKidDetails() {
-    notification.info({
-      message: "Developing...",
-      title: "",
-    });
+  
+  async deleteNotification(notificationId) {
+    try {
+      await axios.delete(`/api/notification/${notificationId}`);
+      this.setState((prevState) => ({
+        notifications: prevState.notifications.filter(n => n._id !== notificationId)
+      }));
+      notification.success({
+        message: "Notification deleted successfully",
+        title: "Success",
+      });
+    } catch (e) {
+      notification.error({
+        message: e.response?.data?.message || "Error deleting notification",
+        title: "Error",
+      });
+    }
   }
 
   render() {
@@ -80,17 +95,32 @@ class KidList extends Component {
     return (
       <div className="notification-page">
         <Navbar username={username} />
-        <div className="page-title">Notification</div>
-        {notifications.map((n) => (
-          <div className="notification_list_item">
-            <label className="notification_list_top_text notification_list_item_center ">
-              {`${getTimeDifferenceFromNow(n.created_at)}: ${n.content}`}
-            </label>
-          </div>
-        ))}
+        <div className="page-title">Messages</div>
+        <div className="notification-page_content">
+          {notifications.map((n) => (
+            <div key={n._id} className="notification_list_item">
+              <label className="notification_list_top_text notification_list_item_center ">
+                {`${getTimeDifferenceFromNow(n.created_at)}: ${n.content}`}
+              </label>
+              
+              <div className="wish-card__action-item">
+                      <button
+                        className="wish-item__remove-from-list"
+                        onClick={() => this.deleteNotification(n._id)}
+                      >
+                        <img
+                          src={removeBtn}
+                          alt="Remove"
+                          className="remove-btn__image"
+                        />
+                      </button>
+                    </div>
+            </div>
+          ))}
+        </div>
       </div>
     );
   }
 }
 
-export default KidList;
+export default NotificationsPage;

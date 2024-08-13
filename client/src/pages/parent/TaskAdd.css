@@ -60,6 +60,9 @@
     margin-right: 10px;
     
 }
+.days-of-week {
+    color: #fff;
+}
 .recurrence-section select {
     font-size: 1.6rem;
     color: #624dd6;

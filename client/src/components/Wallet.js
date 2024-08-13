@@ -10,7 +10,7 @@ class Wallet extends Component {
                 <img src={purse} alt="purse" className="wallet__image" />
                 <p className="wallet__text">
                     <br />
-                    <span className="wallet__sum">{wallet}0</span>
+                    <span className="wallet__sum">{wallet}</span>
                     <br /> COINS SAVED
                 </p>
             </div>

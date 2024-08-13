@@ -17,6 +17,10 @@ const kidSchema = new Schema({
     type: String,
     default: "", 
   },
+  wallet: {
+    type: Number,
+    default: 0, 
+  },
 });
 async function hashPassword(next) {
   const user = this;

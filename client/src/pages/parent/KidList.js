@@ -27,10 +27,8 @@ class KidList extends Component {
   }
 
   async loadData() {
-    console.log("load data");
     try {
       let result = await axios.get("/api/kids");
-      console.log("result: " + JSON.stringify(result));
       this.setState({
         kids: result.data.data,
       });
@@ -64,13 +62,12 @@ class KidList extends Component {
     }
   }
   
-
-  showKidDetails() {
-    notification.info({
-      message: "Developing...",
-      title: "",
+  showKidDetails(id) {
+    this.props.history.push({
+        pathname: `/kidDetails/${id}`,
+        state: { kidId: id } 
     });
-  }
+}
 
   render() {
     const { username, kids } = this.state;
@@ -106,13 +103,13 @@ class KidList extends Component {
                   </div>
                   <div className="kid-card__details">
                     <p className="kid-card__username">{kid.username}</p>
-                    <p className="kid-card__coins">0 Coins</p>
+                    <p className="kid-card__coins">{kid.wallet} Coins</p>
                   </div>
                 </div>
                 <div className="kid-card__actions">
                   <button
                     className="kid-card__details-btn"
-                    onClick={() => this.showKidDetails()}
+                    onClick={() => this.showKidDetails(kid._id)}
                   >
                     Details
                   </button>

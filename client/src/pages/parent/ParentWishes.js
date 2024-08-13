@@ -18,7 +18,7 @@ class ParentWishList extends Component {
     this.state = {
       username: localStorage.username,
       wishes: [],
-      congratsModalIsOpen: false,
+      // congratsModalIsOpen: false,
     };
   }
 
@@ -53,7 +53,7 @@ class ParentWishList extends Component {
   }
 
   render() {
-    const { username, wishes, congratsModalIsOpen } = this.state;
+    const { username, wishes } = this.state;
     return (
       <div className="wish-page">
         <Navbar username={username} />
