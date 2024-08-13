@@ -4,8 +4,10 @@ import "./UserPage.css";
 import { Link } from "react-router-dom";
 import profile from "../../images/user.png";
 import { notification, Badge } from "antd";
-import axios from 'axios';
-
+import axios from "axios";
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
 class UserPage extends Component {
   async componentDidMount() {
     let localStorage = window.localStorage;
@@ -15,7 +17,7 @@ class UserPage extends Component {
       this.setState({
         username: localStorage.username,
         role: localStorage.role,
-        profilePicture: localStorage.profilePicture || profile, 
+        profilePicture: localStorage.profilePicture || profile,
       });
       await this.fetchUnreadNotifications();
     }
@@ -25,14 +27,14 @@ class UserPage extends Component {
     super(props);
     let localStorage = window.localStorage;
     this.state = {
-      username: localStorage.username,
+      username: capitalizeFirstLetter(localStorage.username),
       role: localStorage.role,
       profilePicture: profile,
       unreadNotifications: 0,
     };
   }
 
-  async fetchUnreadNotifications () {
+  async fetchUnreadNotifications() {
     try {
       const response = await axios.get("api/notification/count");
       this.setState({ unreadNotifications: response.data.count });
@@ -101,7 +103,11 @@ class UserPage extends Component {
               className="style_common_button style_common_button_green notification_btn"
               type="submit"
             >
-              <Badge className="badge" count={unreadNotifications} overflowCount={99}></Badge>
+              <Badge
+                className="badge"
+                count={unreadNotifications}
+                overflowCount={99}
+              ></Badge>
               <Link to="/notifications">Messages</Link>
             </button>
 
@@ -140,7 +146,11 @@ class UserPage extends Component {
               className="style_common_button style_common_button_purple notification_btn"
               type="submit"
             >
-              <Badge className="badge" count={unreadNotifications} overflowCount={99}></Badge>
+              <Badge
+                className="badge"
+                count={unreadNotifications}
+                overflowCount={99}
+              ></Badge>
               <Link to="/notifications">Messages</Link>
             </button>
 
