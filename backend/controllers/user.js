@@ -25,9 +25,9 @@ const createParentNotification = async (parent, content) => {
 };
 
 const saveParent = async (req, res) => {
-  const username = req.body.username.toLocaleLowerCase();
+  const _username = req.body.username.toLocaleLowerCase();
   try {
-    const kid = await kidModel.findOne({ username });
+    const kid = await kidModel.findOne({ username: _username });
     if (kid) {
       throw new Error("Username existed!");
     }
@@ -35,7 +35,7 @@ const saveParent = async (req, res) => {
 
     const { username } = await parentModel.create({
       ...req.body,
-      username,
+      username: _username,
       profilePicture,
     });
     res.status(200).send({ data: { username } });
@@ -54,10 +54,10 @@ const getKids = async (req, res) => {
   }
 };
 const saveKid = async (req, res) => {
-  const username = req.body.username;
+  const _username = req.body.username;
   try {
     const parentWithSameUsername = await parentModel.findOne({
-      username,
+      username: _username,
     });
     if (parentWithSameUsername) {
       throw new Error("Username existed!");
@@ -71,7 +71,7 @@ const saveKid = async (req, res) => {
 
     const { username } = await kidModel.create({
       ...req.body,
-      username,
+      username: _username,
       profilePicture,
     });
 
