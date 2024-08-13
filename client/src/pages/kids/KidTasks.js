@@ -100,7 +100,6 @@ class KidTasks extends Component {
   }
 
   async deleteTask(taskId) {
-    console.log("Deleting task with ID:", taskId);  
     try {
       await axios.delete(`/api/task/${taskId}`);
       notification.success({
@@ -118,7 +117,6 @@ class KidTasks extends Component {
   }
 
   async completeTask(taskId) {
-    console.log("Completing task with ID:", taskId);
     try {
       const response = await axios.put(`/api/task/complete/${taskId}`);
       notification.success({
@@ -167,10 +165,6 @@ class KidTasks extends Component {
   isDueSoon(dueDate) {
     const now = moment.tz('America/Toronto');
     const taskDueDate = moment(dueDate).tz('America/Toronto');
-    
-    // Debugging logs
-    console.log('Now:', now.format());
-    console.log('Task Due Date:', taskDueDate.format());
     
     // Calculate the end of the day in 'America/Toronto' timezone
     const endOfDay = now.clone().add(24, 'hours');

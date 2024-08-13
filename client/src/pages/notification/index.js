@@ -95,6 +95,7 @@ class NotificationsPage extends Component {
     return (
       <div className="notification-page">
         <Navbar username={username} />
+        <div className="content-page">
         <div className="page-title">Messages</div>
         <div className="notification-page_content">
           {notifications.map((n) => (
@@ -118,6 +119,7 @@ class NotificationsPage extends Component {
             </div>
           ))}
         </div>
+      </div>
       </div>
     );
   }

@@ -37,10 +37,6 @@ class WishAdd extends Component {
                 wishCost,         
             });
 
-            // Log the successful result and the wish ID
-            console.log("Wish saved successfully:", result.data);
-            console.log("Wish ID:", result.data.data._id);
-
             notification.success({
                 message: "Wish added successfully",
                 title: "Success",

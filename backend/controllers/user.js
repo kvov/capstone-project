@@ -46,7 +46,6 @@ const saveParent = async (req, res) => {
 const getKids = async (req, res) => {
   try {
     const parentId = req.session.userId;
-    console.log(parentId);
     const kids = await kidModel.find({ parent: parentId });
     res.status(200).send({ data: kids });
   } catch (e) {
@@ -54,7 +53,7 @@ const getKids = async (req, res) => {
   }
 };
 const saveKid = async (req, res) => {
-  const _username = req.body.username;
+  const _username = req.body.username.toLocaleLowerCase();
   try {
     const parentWithSameUsername = await parentModel.findOne({
       username: _username,
@@ -210,6 +209,10 @@ const saveTask = async (req, res) => {
       throw new Error("Not a valid kid");
     }
 
+    if (recurrence && recurrence.frequency === 'weekly' && (!recurrence.daysOfWeek || recurrence.daysOfWeek.length === 0)) {
+      throw new Error("Please select days of the week for weekly recurrence");
+    }
+
     // Create a new task
     const task = await taskModel.create({
       parent,
@@ -290,7 +293,6 @@ const getTasks = async (req, res) => {
 const getKidTasks = async (req, res) => {
   try {
     const kidId = req.params.id;
-    console.log(kidId);
     const tasks = await taskModel
       .find({ kid: kidId })
       .populate("kid")
@@ -454,7 +456,6 @@ const updateTask = async (req, res) => {
       task.taskStatus !== "completed"
     ) {
       task.taskStatus = "expired";
-      console.log("Task marked as expired");
     }
     await task.save();
 

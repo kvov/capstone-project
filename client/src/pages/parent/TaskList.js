@@ -125,7 +125,6 @@ class TaskList extends Component {
   }
 
   async updateTask() {
-    console.log("Updating task with data:", this.state.taskToUpdate);
     const { taskToUpdate } = this.state;
     try {
       await axios.put(`/api/task/${taskToUpdate._id}`, taskToUpdate);

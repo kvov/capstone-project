@@ -69,10 +69,8 @@ class WishList extends Component {
 
   // Delete a specific wish
   async deleteWish(wishId) {
-    console.log("Deleting wish with ID:", wishId);
     try {
       const kidId = window.localStorage.id;
-      console.log("Kid ID:", kidId);
       await axios.delete(`/api/wish/${wishId}`, {
         data: { kid: kidId },
       });
@@ -90,10 +88,8 @@ class WishList extends Component {
   }
 
   async executeWish(wishId) {
-    console.log("Executing wish with ID:", wishId);
     try {
       const kidId = window.localStorage.id;
-      console.log("Kid ID:", kidId);
       const response = await axios.put(`/api/wish/fulfill/${wishId}`, { kid: kidId });
       
       if (response.data.msg === "Wish fulfilled successfully") {

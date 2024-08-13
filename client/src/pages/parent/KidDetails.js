@@ -15,7 +15,6 @@ class KidDetails extends Component {
         }
         const kidId = this.props.location.state?.kidId || localStorage.id;
         this.loadData(kidId);
-        console.log(kidId);
     }
 
     constructor(props) {
@@ -33,12 +32,10 @@ class KidDetails extends Component {
         try {
             // Fetch kid details
             let resultKid = await axios.get(`/api/kidDetails/${id}`);
-            console.log("API Kid Response:", resultKid.data); 
             this.setState({ kid: resultKid.data.data });
 
             // Fetch tasks and process them
             let resultTasks = await axios.get(`/api/kidTasks/${id}`);
-            console.log("API Kid Tasks Response:", resultTasks.data);
             let tasks = resultTasks.data.data;
 
             // Process tasks to filter and update recurring tasks
@@ -83,7 +80,6 @@ class KidDetails extends Component {
 
             // Fetch wishes
             let resultWishes = await axios.get(`/api/kidWishes/${id}`);
-            console.log("API Kid Wishes Response:", resultWishes.data);
             this.setState({ wishes: resultWishes.data.data });
 
         } catch (e) {

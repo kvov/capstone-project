@@ -76,8 +76,6 @@ class LoginPage extends Component {
           username: username,
           password: password,
         });
-
-        console.log('API Response Data:', data);
         const { id, role, profilePicture } = data.data;
 
         let localStorage = window.localStorage;

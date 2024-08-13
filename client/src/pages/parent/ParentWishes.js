@@ -43,7 +43,7 @@ class ParentWishList extends Component {
         wishes: result.data.data,
       });
     } catch (e) {
-      console.log("reuslt: " + e.message);
+      console.log("result: " + e.message);
       notification.error({
         message: e.response.data.msg,
         title: "Error",

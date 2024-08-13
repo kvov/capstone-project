@@ -61,8 +61,6 @@ class TaskAdd extends Component {
 
     const selectedDate = moment.tz(dueDate, 'America/Toronto').startOf('day').toDate();
     const today = moment.tz('America/Toronto').startOf('day').toDate();
-    console.log("Selected Date:", selectedDate);
-    console.log("Today's Date:", today);
 
     if (selectedDate < today) {
       
@@ -93,9 +91,6 @@ class TaskAdd extends Component {
         recurrence,
       });
 
-      console.log("Task saved successfully:", result.data);
-      console.log("Task ID:", result.data.data._id);
-
       notification.success({
         message: "Task added successfully",
         title: "Success",
@@ -104,8 +99,6 @@ class TaskAdd extends Component {
       setTimeout(() => {
         this.props.history.replace("/tasks");
       }, 2000);
-
-      console.log("result:", result);
     } catch (e) {
       notification.error({
         message: e.response.data.msg,
