@@ -6,7 +6,11 @@ import profile from "../../images/user.png";
 import { notification, Badge } from "antd";
 import axios from "axios";
 function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  try {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  } catch (e) {
+    return string;
+  }
 }
 class UserPage extends Component {
   async componentDidMount() {
