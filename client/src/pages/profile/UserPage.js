@@ -15,7 +15,7 @@ class UserPage extends Component {
       this.props.history.replace("/login");
     } else {
       this.setState({
-        username: localStorage.username,
+        username: capitalizeFirstLetter(localStorage.username),
         role: localStorage.role,
         profilePicture: localStorage.profilePicture || profile,
       });
