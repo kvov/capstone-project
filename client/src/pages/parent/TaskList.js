@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import moment from 'moment-timezone';
+import moment from "moment-timezone";
 import "./TaskList.css";
 import Navbar from "../../components/Navbar";
 import removeBtn from "../../images/remove.png";
@@ -34,43 +34,48 @@ class TaskList extends Component {
     try {
       let result = await axios.get("/api/tasks");
       const tasks = result.data.data;
-  
+
       const filteredTasks = tasks.reduce((acc, task) => {
         // Filter for recurring tasks and update with nearest due date
         if (task.recurrence) {
           let nextDueDate = moment(task.dueDate);
-  
-          if (task.recurrence.frequency === 'daily') {
-              while (nextDueDate.isBefore(moment().startOf('day'))) {
-                  nextDueDate.add(1, 'days');
-              }
-          } else if (task.recurrence.frequency === 'weekly') {
-              while (nextDueDate.isBefore(moment().startOf('day'))) {
-                  nextDueDate.add(1, 'weeks');
-              }
-          } else if (task.recurrence.frequency === 'monthly') {
-              while (nextDueDate.isBefore(moment().startOf('day'))) {
-                  nextDueDate.add(1, 'months');
-              }
+
+          if (task.recurrence.frequency === "daily") {
+            while (nextDueDate.isBefore(moment().startOf("day"))) {
+              nextDueDate.add(1, "days");
+            }
+          } else if (task.recurrence.frequency === "weekly") {
+            while (nextDueDate.isBefore(moment().startOf("day"))) {
+              nextDueDate.add(1, "weeks");
+            }
+          } else if (task.recurrence.frequency === "monthly") {
+            while (nextDueDate.isBefore(moment().startOf("day"))) {
+              nextDueDate.add(1, "months");
+            }
           }
-  
+
           task.dueDate = nextDueDate.toDate();
         }
-  
+
         // Only add task if it is not already in the list or if it has an earlier due date
-        const existingTaskIndex = acc.findIndex(t => t.taskDescription === task.taskDescription);
-  
-        if (existingTaskIndex === -1 || moment(task.dueDate).isBefore(moment(acc[existingTaskIndex].dueDate))) {
+        const existingTaskIndex = acc.findIndex(
+          (t) => t.taskDescription === task.taskDescription
+        );
+
+        if (
+          existingTaskIndex === -1 ||
+          moment(task.dueDate).isBefore(moment(acc[existingTaskIndex].dueDate))
+        ) {
           if (existingTaskIndex !== -1) {
             acc[existingTaskIndex] = task;
           } else {
             acc.push(task);
           }
         }
-  
+
         return acc;
       }, []);
-  
+
       this.setState({ tasks: filteredTasks });
     } catch (e) {
       notification.error({
@@ -78,7 +83,7 @@ class TaskList extends Component {
         title: "Error",
       });
     }
-  }  
+  }
 
   async deleteTask(taskId) {
     try {
@@ -90,7 +95,7 @@ class TaskList extends Component {
       this.loadTasks();
     } catch (e) {
       notification.error({
-        message: e.response ? e.response.data.msg : 'Error deleting task',
+        message: e.response ? e.response.data.msg : "Error deleting task",
         title: "Error",
       });
     }
@@ -100,7 +105,7 @@ class TaskList extends Component {
     try {
       const { _id, recurrence, taskCost } = task;
       await axios.put(`/api/task/confirm/${_id}`, {
-        kidId: task.kid._id, 
+        kidId: task.kid._id,
         recurrence,
         taskCost,
       });
@@ -113,14 +118,14 @@ class TaskList extends Component {
       this.loadTasks();
     } catch (e) {
       notification.error({
-        message: e.response ? e.response.data.message : 'Error confirming task',
+        message: e.response ? e.response.data.message : "Error confirming task",
         title: "Error",
       });
     }
   }
 
   async updateTask() {
-    console.log('Updating task with data:', this.state.taskToUpdate);
+    console.log("Updating task with data:", this.state.taskToUpdate);
     const { taskToUpdate } = this.state;
     try {
       await axios.put(`/api/task/${taskToUpdate._id}`, taskToUpdate);
@@ -132,7 +137,7 @@ class TaskList extends Component {
       this.loadTasks();
     } catch (e) {
       notification.error({
-        message: e.response ? e.response.data.message : 'Error updating task',
+        message: e.response ? e.response.data.message : "Error updating task",
         title: "Error",
       });
     }
@@ -169,11 +174,11 @@ class TaskList extends Component {
     if (!recurrence) return "";
 
     const { frequency, daysOfWeek } = recurrence;
-    let recurrenceText = frequency ? `${frequency}` : '';
+    let recurrenceText = frequency ? `${frequency}` : "";
 
     if (daysOfWeek && daysOfWeek.length > 0) {
       const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-      const days = daysOfWeek.map(day => dayNames[day]).join(", ");
+      const days = daysOfWeek.map((day) => dayNames[day]).join(", ");
       recurrenceText += `<br />on ${days}`;
     }
 
@@ -213,14 +218,17 @@ class TaskList extends Component {
   };
 
   formatDate(date) {
-    return moment(date).tz('America/Toronto').format('YYYY-MM-DD'); 
+    return moment(date).tz("America/Toronto").format("YYYY-MM-DD");
   }
 
   isDueSoon(dueDate) {
-    const now = moment.tz('America/Toronto');
-    const taskDueDate = moment(dueDate).tz('America/Toronto');
-    const endOfDay = now.clone().add(24, 'hours');
-    return taskDueDate.isBefore(endOfDay) && taskDueDate.isSameOrAfter(now.clone().subtract(1, 'days'));
+    const now = moment.tz("America/Toronto");
+    const taskDueDate = moment(dueDate).tz("America/Toronto");
+    const endOfDay = now.clone().add(24, "hours");
+    return (
+      taskDueDate.isBefore(endOfDay) &&
+      taskDueDate.isSameOrAfter(now.clone().subtract(1, "days"))
+    );
   }
 
   render() {
@@ -241,7 +249,9 @@ class TaskList extends Component {
           <div className="task-page__task-list">
             {tasks.map((task) => (
               <div
-                className={`task-card ${this.isDueSoon(task.dueDate) ? 'task-card__due-soon' : ''}`}
+                className={`task-card ${
+                  this.isDueSoon(task.dueDate) ? "task-card__due-soon" : ""
+                }`}
                 key={task._id}
               >
                 <div className="task-card__content">
@@ -292,7 +302,7 @@ class TaskList extends Component {
                           <select
                             className="form-select"
                             name="taskStatus"
-                            value={taskToUpdate.taskStatus || 'new'}
+                            value={taskToUpdate.taskStatus || "new"}
                             onChange={this.handleStatusChange}
                           >
                             <option value="new">New</option>
@@ -300,18 +310,20 @@ class TaskList extends Component {
                             <option value="completed">Completed</option>
                             <option value="expired">Expired</option>
                             <option value="failed">Failed</option>
-                            <option value="pending approval">Pending Approval</option>
+                            <option value="pending approval">
+                              Pending Approval
+                            </option>
                           </select>
                         </div>
                       </div>
-                      
+
                       <div className="row mb-3">
                         <div className="col task-card__details">
                           <label className="form-label">Recurrence:</label>
                           <select
                             className="form-select"
                             name="frequency"
-                            value={taskToUpdate.recurrence.frequency || ''}
+                            value={taskToUpdate.recurrence.frequency || ""}
                             onChange={(e) => this.handleRecurrenceChange(e)}
                           >
                             <option value="">None</option>
@@ -322,18 +334,34 @@ class TaskList extends Component {
 
                           {taskToUpdate.recurrence.frequency === "weekly" && (
                             <div className="mt-3">
-                              <label className="form-label">Select Days of Week:</label>
+                              <label className="form-label">
+                                Select Days of Week:
+                              </label>
                               <div>
                                 {[0, 1, 2, 3, 4, 5, 6].map((day) => (
                                   <div key={day} className="form-check">
                                     <input
                                       className="form-check-input"
                                       type="checkbox"
-                                      checked={taskToUpdate.recurrence.daysOfWeek.includes(day)}
-                                      onChange={() => this.handleDaySelection(day)}
+                                      checked={taskToUpdate.recurrence.daysOfWeek.includes(
+                                        day
+                                      )}
+                                      onChange={() =>
+                                        this.handleDaySelection(day)
+                                      }
                                     />
                                     <label className="form-check-label">
-                                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][day]}
+                                      {
+                                        [
+                                          "Sun",
+                                          "Mon",
+                                          "Tue",
+                                          "Wed",
+                                          "Thu",
+                                          "Fri",
+                                          "Sat",
+                                        ][day]
+                                      }
                                     </label>
                                   </div>
                                 ))}
@@ -345,14 +373,33 @@ class TaskList extends Component {
 
                       <div className="task-card__actions">
                         <div className="task-card__action-item">
-                          <button className="task-item__update-task-btn" onClick={() => this.updateTask()}>
-                            <img src={saveBtn} alt="Update" className="update-task-btn__image" />
+                          <button
+                            className="task-item__update-task-btn"
+                            onClick={() => this.updateTask()}
+                          >
+                            <img
+                              src={saveBtn}
+                              alt="Update"
+                              className="update-task-btn__image"
+                            />
                           </button>
                           <span className="task-btn-label update">Save</span>
                         </div>
                         <div className="task-card__action-item">
-                          <button className="task-item__remove-from-list" onClick={() => this.setState({ editingTaskId: null, taskToUpdate: null })}>
-                            <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
+                          <button
+                            className="task-item__remove-from-list"
+                            onClick={() =>
+                              this.setState({
+                                editingTaskId: null,
+                                taskToUpdate: null,
+                              })
+                            }
+                          >
+                            <img
+                              src={removeBtn}
+                              alt="Remove"
+                              className="task-remove-btn__image"
+                            />
                           </button>
                           <span className="task-btn-label delete">Cancel</span>
                         </div>
@@ -360,33 +407,72 @@ class TaskList extends Component {
                     </div>
                   ) : (
                     <div>
-                      <p className="task-card__description">{task.taskDescription}</p>
-                      <p className="task-card__details">Kid: {task.kid.username}</p>
-                      <p className="task-card__details">Cost: {task.taskCost} coins</p>
-                      <p className="task-card__details">Status: {task.taskStatus}</p>
-                      <p className="task-card__details">Due: {this.formatDate(task.dueDate)}</p>
+                      <p className="task-card__description">
+                        {task.taskDescription}
+                      </p>
+                      <p className="task-card__details">
+                        Kid: {task.kid?.username}
+                      </p>
+                      <p className="task-card__details">
+                        Cost: {task.taskCost} coins
+                      </p>
+                      <p className="task-card__details">
+                        Status: {task.taskStatus}
+                      </p>
+                      <p className="task-card__details">
+                        Due: {this.formatDate(task.dueDate)}
+                      </p>
                       <p className="task-card__details">
                         {this.renderRecurrence(task.recurrence) ? (
-                          <span dangerouslySetInnerHTML={{ __html: `Recurrence: ${this.renderRecurrence(task.recurrence)}` }} />
-                        ) : ""}
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: `Recurrence: ${this.renderRecurrence(
+                                task.recurrence
+                              )}`,
+                            }}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </p>
                       <div className="task-card__actions">
                         <div className="task-card__action-item">
-                          <button className="task-item__execute-task-btn" onClick={() => this.confirmTask(task)}>
-                            <img src={execute} alt="Execute" className="execute-task-btn__image" />
+                          <button
+                            className="task-item__execute-task-btn"
+                            onClick={() => this.confirmTask(task)}
+                          >
+                            <img
+                              src={execute}
+                              alt="Execute"
+                              className="execute-task-btn__image"
+                            />
                           </button>
                           <span className="task-btn-label done">Confirm</span>
                         </div>
-                        
+
                         <div className="task-card__action-item">
-                          <button className="task-item__update-task-btn" onClick={() => this.startEditing(task)}>
-                            <img src={updateBtn} alt="Update" className="update-task-btn__image" />
+                          <button
+                            className="task-item__update-task-btn"
+                            onClick={() => this.startEditing(task)}
+                          >
+                            <img
+                              src={updateBtn}
+                              alt="Update"
+                              className="update-task-btn__image"
+                            />
                           </button>
                           <span className="task-btn-label update">Update</span>
                         </div>
                         <div className="task-card__action-item">
-                          <button className="task-item__remove-from-list" onClick={() => this.deleteTask(task._id)}>
-                            <img src={removeBtn} alt="Remove" className="task-remove-btn__image" />
+                          <button
+                            className="task-item__remove-from-list"
+                            onClick={() => this.deleteTask(task._id)}
+                          >
+                            <img
+                              src={removeBtn}
+                              alt="Remove"
+                              className="task-remove-btn__image"
+                            />
                           </button>
                           <span className="task-btn-label delete">Delete</span>
                         </div>
