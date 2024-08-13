@@ -74,6 +74,7 @@ class KidList extends Component {
     return (
       <div className="kid-page">
         <Navbar username={username} />
+        <div className="content-page">
         <div className="page-title">Manage Kids</div>
 
         <div className="kid-add-button-div">
@@ -118,6 +119,7 @@ class KidList extends Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     );

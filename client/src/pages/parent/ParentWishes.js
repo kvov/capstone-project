@@ -56,6 +56,7 @@ class ParentWishList extends Component {
     return (
       <div className="wish-page">
         <Navbar username={username} />
+        <div className="content-page">
         <div className="page-title">Manage Wishes</div>
 
         <div className="wish-page__wish-list-div">
@@ -100,6 +101,7 @@ class ParentWishList extends Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     );

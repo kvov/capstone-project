@@ -122,6 +122,7 @@ class WishList extends Component {
       <div className="wish-page">
         <Navbar username={username} />
 
+      <div className="content-page">
         <div className="page-title">Manage Wishes</div>
 
         <Wallet wallet={wallet} />
@@ -199,6 +200,7 @@ class WishList extends Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     );

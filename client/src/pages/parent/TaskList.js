@@ -228,7 +228,7 @@ class TaskList extends Component {
     return (
       <div className="task-page">
         <Navbar username={username} />
-
+        <div className="content-page">
         <div className="page-title">Manage Tasks</div>
 
         <div className="task-page__add-task-button-div">
@@ -248,7 +248,7 @@ class TaskList extends Component {
                   {editingTaskId === task._id ? (
                     <div className="container">
                       <div className="row mb-3">
-                        <div className="col">
+                        <div className="col task-card__details">
                           <label className="form-label">Description:</label>
                           <input
                             className="form-control"
@@ -261,7 +261,7 @@ class TaskList extends Component {
                       </div>
 
                       <div className="row mb-3">
-                        <div className="col">
+                        <div className="col task-card__details">
                           <label className="form-label">Cost:</label>
                           <input
                             className="form-control"
@@ -274,7 +274,7 @@ class TaskList extends Component {
                       </div>
 
                       <div className="row mb-3">
-                        <div className="col">
+                        <div className="col task-card__details">
                           <label className="form-label">Due Date:</label>
                           <input
                             className="form-control"
@@ -287,7 +287,7 @@ class TaskList extends Component {
                       </div>
 
                       <div className="row mb-3">
-                        <div className="col">
+                        <div className="col task-card__details">
                           <label className="form-label">Status:</label>
                           <select
                             className="form-select"
@@ -306,7 +306,7 @@ class TaskList extends Component {
                       </div>
                       
                       <div className="row mb-3">
-                        <div className="col">
+                        <div className="col task-card__details">
                           <label className="form-label">Recurrence:</label>
                           <select
                             className="form-select"
@@ -397,6 +397,7 @@ class TaskList extends Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     );

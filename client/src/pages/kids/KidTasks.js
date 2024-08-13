@@ -199,7 +199,8 @@ class KidTasks extends Component {
     const { username, tasks, wallet } = this.state;
     return (
       <div className="task-page">
-        <Navbar username={username} />        
+        <Navbar username={username} /> 
+        <div className="content-page">
         <div className="page-title">Tasks</div>
 
         <Wallet wallet={wallet} />
@@ -241,6 +242,7 @@ class KidTasks extends Component {
               </div>
             ))}
           </div>
+        </div>
         </div>
       </div>
     );
