@@ -25,8 +25,9 @@ const createParentNotification = async (parent, content) => {
 };
 
 const saveParent = async (req, res) => {
+  const username = req.body.username.toLocaleLowerCase();
   try {
-    const kid = await kidModel.findOne({ username: req.body.username });
+    const kid = await kidModel.findOne({ username });
     if (kid) {
       throw new Error("Username existed!");
     }
@@ -34,6 +35,7 @@ const saveParent = async (req, res) => {
 
     const { username } = await parentModel.create({
       ...req.body,
+      username,
       profilePicture,
     });
     res.status(200).send({ data: { username } });
@@ -52,9 +54,10 @@ const getKids = async (req, res) => {
   }
 };
 const saveKid = async (req, res) => {
+  const username = req.body.username;
   try {
     const parentWithSameUsername = await parentModel.findOne({
-      username: req.body.username,
+      username,
     });
     if (parentWithSameUsername) {
       throw new Error("Username existed!");
@@ -68,6 +71,7 @@ const saveKid = async (req, res) => {
 
     const { username } = await kidModel.create({
       ...req.body,
+      username,
       profilePicture,
     });
 
@@ -114,7 +118,9 @@ const getKidDetails = async (req, res) => {
 
     const parentId = req.session.userId;
     if (kid.parent.toString() !== parentId) {
-      return res.status(403).send({ msg: "Not authorized to access this kid's details" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to access this kid's details" });
     }
     res.status(200).send({ data: kid });
   } catch (e) {
@@ -122,10 +128,10 @@ const getKidDetails = async (req, res) => {
   }
 };
 
-
 const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username: _username, password } = req.body;
+    const username = _username.toLocaleLowerCase();
     let object = null;
     let role = "parent";
     object = await parentModel.findOne({ username });
@@ -173,7 +179,8 @@ const logout = async (req, res) => {
 
 const saveTask = async (req, res) => {
   try {
-    const { parent, kid, taskDescription, taskCost, dueDate, recurrence } = req.body;
+    const { parent, kid, taskDescription, taskCost, dueDate, recurrence } =
+      req.body;
 
     if (!taskDescription || !taskCost || !dueDate || !kid) {
       throw new Error("All fields are required");
@@ -183,8 +190,11 @@ const saveTask = async (req, res) => {
       throw new Error("Task cost must be a positive number");
     }
 
-    const selectedDate = moment.tz(dueDate, 'America/Toronto').startOf('day').toDate();
-    const today = moment.tz('America/Toronto').startOf('day').toDate();
+    const selectedDate = moment
+      .tz(dueDate, "America/Toronto")
+      .startOf("day")
+      .toDate();
+    const today = moment.tz("America/Toronto").startOf("day").toDate();
 
     if (selectedDate < today) {
       throw new Error("Due date must be today or in the future");
@@ -205,29 +215,32 @@ const saveTask = async (req, res) => {
       parent,
       kid,
       taskDescription,
-      taskStatus: 'new',
+      taskStatus: "new",
       taskCost,
       dueDate: selectedDate,
       recurrence,
     });
-    
-    await createKidNotification(kid, `New task created for you: ${taskDescription}`);
+
+    await createKidNotification(
+      kid,
+      `New task created for you: ${taskDescription}`
+    );
 
     // Create recurring tasks
     if (recurrence && recurrence.frequency) {
       const { frequency, daysOfWeek } = recurrence;
       let nextDate = moment(selectedDate);
 
-      while (nextDate.isBefore(moment().add(1, 'year'))) {
-        if (frequency === 'daily') {
-          nextDate.add(1, 'days');
-        } else if (frequency === 'weekly') {
-          nextDate.add(1, 'weeks');
-        } else if (frequency === 'monthly') {
-          nextDate.add(1, 'months');
+      while (nextDate.isBefore(moment().add(1, "year"))) {
+        if (frequency === "daily") {
+          nextDate.add(1, "days");
+        } else if (frequency === "weekly") {
+          nextDate.add(1, "weeks");
+        } else if (frequency === "monthly") {
+          nextDate.add(1, "months");
         }
 
-        if (nextDate.isAfter(moment().add(1, 'year'))) break;
+        if (nextDate.isAfter(moment().add(1, "year"))) break;
 
         if (daysOfWeek && !daysOfWeek.includes(nextDate.day())) {
           continue;
@@ -238,7 +251,7 @@ const saveTask = async (req, res) => {
           parent,
           kid,
           taskDescription,
-          taskStatus: 'new',
+          taskStatus: "new",
           taskCost,
           dueDate: nextDate.toDate(),
           recurrence,
@@ -254,47 +267,51 @@ const saveTask = async (req, res) => {
 
 const getTasks = async (req, res) => {
   try {
-      const parentId = req.session.userId;
-      const tasks = await taskModel.find({ parent: parentId }).populate("kid");
+    const parentId = req.session.userId;
+    const tasks = await taskModel.find({ parent: parentId }).populate("kid");
 
-      const formattedTasks = tasks.map((task) => {
-        const formattedDueDate = moment.tz(task.dueDate, 'America/Toronto').format('YYYY-MM-DD');
-          return {
-          ...task._doc,
-          dueDate: formattedDueDate,
-          recurrence: task.recurrence || null,
-          };
-      });
-  
-      res.status(200).send({ data: formattedTasks });
-      } catch (e) {
-      res.status(400).send({ msg: e.message });
-      }
+    const formattedTasks = tasks.map((task) => {
+      const formattedDueDate = moment
+        .tz(task.dueDate, "America/Toronto")
+        .format("YYYY-MM-DD");
+      return {
+        ...task._doc,
+        dueDate: formattedDueDate,
+        recurrence: task.recurrence || null,
+      };
+    });
+
+    res.status(200).send({ data: formattedTasks });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
 };
 
 const getKidTasks = async (req, res) => {
   try {
-      const kidId = req.params.id;
-      console.log(kidId);
-      const tasks = await taskModel
-          .find({ kid: kidId })
-          .populate("kid")
-          .sort({ createTime: -1 });
-  
-      // Format the dueDate to remove time part
-      const formattedTasks = tasks.map((task) => {
-        const formattedDueDate = moment.tz(task.dueDate, 'America/Toronto').format('YYYY-MM-DD');
-          return {
-          ...task._doc,
-          dueDate: formattedDueDate,
-          recurrence: task.recurrence || null,
-          };
-      });
-  
-      res.status(200).send({ data: formattedTasks });
-      } catch (e) {
-      res.status(400).send({ msg: e.message });
-      }
+    const kidId = req.params.id;
+    console.log(kidId);
+    const tasks = await taskModel
+      .find({ kid: kidId })
+      .populate("kid")
+      .sort({ createTime: -1 });
+
+    // Format the dueDate to remove time part
+    const formattedTasks = tasks.map((task) => {
+      const formattedDueDate = moment
+        .tz(task.dueDate, "America/Toronto")
+        .format("YYYY-MM-DD");
+      return {
+        ...task._doc,
+        dueDate: formattedDueDate,
+        recurrence: task.recurrence || null,
+      };
+    });
+
+    res.status(200).send({ data: formattedTasks });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
+  }
 };
 
 const completeTask = async (req, res) => {
@@ -308,10 +325,12 @@ const completeTask = async (req, res) => {
     }
 
     if (task.kid.toString() !== userId.toString()) {
-      return res.status(403).send({ msg: "Not authorized to complete this task" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to complete this task" });
     }
 
-    task.taskStatus = 'pending approval';
+    task.taskStatus = "pending approval";
     await task.save();
 
     await createParentNotification(
@@ -336,10 +355,12 @@ const failTask = async (req, res) => {
     }
 
     if (task.kid.toString() !== userId.toString()) {
-      return res.status(403).send({ msg: "Not authorized to complete this task" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to complete this task" });
     }
 
-    task.taskStatus = 'failed';
+    task.taskStatus = "failed";
     await task.save();
 
     await createParentNotification(
@@ -355,7 +376,7 @@ const failTask = async (req, res) => {
 
 const confirmTask = async (req, res) => {
   try {
-    const parentId = req.session.userId; 
+    const parentId = req.session.userId;
     const taskId = req.params.id;
     const { recurrence, taskCost, kidId } = req.body;
 
@@ -365,15 +386,17 @@ const confirmTask = async (req, res) => {
     }
 
     if (task.kid.toString() !== kidId.toString()) {
-      return res.status(403).send({ msg: "Not authorized to complete this task" });
+      return res
+        .status(403)
+        .send({ msg: "Not authorized to complete this task" });
     }
 
     if (!recurrence.frequency && !recurrence.daysOfWeek?.length) {
       // No recurrence, mark task as completed
-      task.taskStatus = 'completed';
+      task.taskStatus = "completed";
     } else {
       // Recurrence present, mark task as in progress
-      task.taskStatus = 'in progress';
+      task.taskStatus = "in progress";
     }
     await task.save();
 
@@ -382,7 +405,7 @@ const confirmTask = async (req, res) => {
     if (!kid) {
       return res.status(404).send({ msg: "Kid not found" });
     }
-    kid.wallet += taskCost; 
+    kid.wallet += taskCost;
     await kid.save();
 
     // Send notification to the kid
@@ -399,77 +422,89 @@ const confirmTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-      const taskId = req.params.id;
-      const { taskDescription, taskStatus, taskCost, dueDate, recurrence } = req.body;
+    const taskId = req.params.id;
+    const { taskDescription, taskStatus, taskCost, dueDate, recurrence } =
+      req.body;
 
-      const task = await taskModel.findById(taskId);
-      if (!task) {
-          throw new Error("Task not found");
-      }
-  
-      if (task.parent.toString() !== req.session.userId) {
-          throw new Error("Not authorized to update this task");
-      }
-  
-      // Update task details
-      task.taskDescription = taskDescription || task.taskDescription;
-      task.taskStatus = taskStatus || task.taskStatus;
-      task.taskCost = taskCost || task.taskCost;
-      task.dueDate = dueDate || task.dueDate;
-      task.recurrence = recurrence || task.recurrence;
-
-    const todayStart = moment.tz('America/Toronto').startOf('day'); 
-    const todayEnd = moment.tz('America/Toronto').endOf('day'); 
-    const taskDueDate = moment.tz(task.dueDate, 'America/Toronto').startOf('day'); 
-
-    if (taskDueDate.isBefore(todayEnd) && taskDueDate.isAfter(todayStart) && task.taskStatus !== 'completed') {
-      task.taskStatus = 'expired';
-      console.log('Task marked as expired');
+    const task = await taskModel.findById(taskId);
+    if (!task) {
+      throw new Error("Task not found");
     }
-      await task.save();
-  
-      // Notify parent and kid
-      await createParentNotification(task.parent, `Task "${task.taskDescription}" was updated.`);
-      await createKidNotification(task.kid, `Task "${task.taskDescription}" was updated.`);
-  
-      res.status(200).send({ msg: "Task updated successfully", data: task });
-      } catch (e) {
-      res.status(400).send({ msg: e.message });
+
+    if (task.parent.toString() !== req.session.userId) {
+      throw new Error("Not authorized to update this task");
+    }
+
+    // Update task details
+    task.taskDescription = taskDescription || task.taskDescription;
+    task.taskStatus = taskStatus || task.taskStatus;
+    task.taskCost = taskCost || task.taskCost;
+    task.dueDate = dueDate || task.dueDate;
+    task.recurrence = recurrence || task.recurrence;
+
+    const todayStart = moment.tz("America/Toronto").startOf("day");
+    const todayEnd = moment.tz("America/Toronto").endOf("day");
+    const taskDueDate = moment
+      .tz(task.dueDate, "America/Toronto")
+      .startOf("day");
+
+    if (
+      taskDueDate.isBefore(todayEnd) &&
+      taskDueDate.isAfter(todayStart) &&
+      task.taskStatus !== "completed"
+    ) {
+      task.taskStatus = "expired";
+      console.log("Task marked as expired");
+    }
+    await task.save();
+
+    // Notify parent and kid
+    await createParentNotification(
+      task.parent,
+      `Task "${task.taskDescription}" was updated.`
+    );
+    await createKidNotification(
+      task.kid,
+      `Task "${task.taskDescription}" was updated.`
+    );
+
+    res.status(200).send({ msg: "Task updated successfully", data: task });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
   }
 };
 
-
 const deleteTask = async (req, res) => {
   try {
-      const taskId = req.params.id;
-  
-      // Check if the task exists
-      const task = await taskModel.findById(taskId);
-      if (!task) {
-          throw new Error("Task not found");
-      }
-  
-      // Check if the task belongs to the parent making the request
-      if (task.parent.toString() !== req.session.userId) {
-          throw new Error("Not authorized to delete this task");
-      }
-  
-      // Handle recurring tasks
-      if (task.recurrence) {
-          await taskModel.deleteMany({
-          parent: task.parent,
-          kid: task.kid,
-          taskDescription: task.taskDescription,
-          createTime: { $gte: task.createTime }, 
-          });
-      }
-  
-      // Delete the original task
-      await taskModel.findByIdAndDelete(taskId);
-  
-      res.status(200).send({ msg: "Task deleted successfully" });
-      } catch (e) {
-      res.status(400).send({ msg: e.message });
+    const taskId = req.params.id;
+
+    // Check if the task exists
+    const task = await taskModel.findById(taskId);
+    if (!task) {
+      throw new Error("Task not found");
+    }
+
+    // Check if the task belongs to the parent making the request
+    if (task.parent.toString() !== req.session.userId) {
+      throw new Error("Not authorized to delete this task");
+    }
+
+    // Handle recurring tasks
+    if (task.recurrence) {
+      await taskModel.deleteMany({
+        parent: task.parent,
+        kid: task.kid,
+        taskDescription: task.taskDescription,
+        createTime: { $gte: task.createTime },
+      });
+    }
+
+    // Delete the original task
+    await taskModel.findByIdAndDelete(taskId);
+
+    res.status(200).send({ msg: "Task deleted successfully" });
+  } catch (e) {
+    res.status(400).send({ msg: e.message });
   }
 };
 
@@ -477,15 +512,17 @@ const deleteTask = async (req, res) => {
 const sendTaskReminders = async () => {
   try {
     // Get current date and time in the desired time zone
-    const now = moment.tz('America/Toronto');
-    const endOfDay = now.clone().add(24, 'hours');
-    
+    const now = moment.tz("America/Toronto");
+    const endOfDay = now.clone().add(24, "hours");
+
     // Find tasks that are due within the next 24 hours
-    const tasks = await taskModel.find({
-      dueDate: { $gte: now.toDate(), $lte: endOfDay.toDate() },
-      taskStatus: { $nin: ['completed', 'pending approval'] },
-      reminderSent: { $lt: now.subtract(1, 'hour').toDate() } 
-    }).populate('kid');
+    const tasks = await taskModel
+      .find({
+        dueDate: { $gte: now.toDate(), $lte: endOfDay.toDate() },
+        taskStatus: { $nin: ["completed", "pending approval"] },
+        reminderSent: { $lt: now.subtract(1, "hour").toDate() },
+      })
+      .populate("kid");
 
     for (const task of tasks) {
       // Send notification to the kid
@@ -501,12 +538,12 @@ const sendTaskReminders = async () => {
       );
     }
   } catch (error) {
-    console.error('Error sending task reminders:', error);
+    console.error("Error sending task reminders:", error);
   }
 };
 
 // Schedule the job to run every hour
-cron.schedule('0 * * * *', sendTaskReminders);
+cron.schedule("0 * * * *", sendTaskReminders);
 
 //wish methods
 const saveWish = async (req, res) => {
@@ -636,7 +673,7 @@ const fulfillWish = async (req, res) => {
 
     wish.isFulfilled = true;
     await wish.save();
-    
+
     await createParentNotification(
       req.session.parentId,
       `Your kid ${req.session.username} fullfilled the wish: ${wish.wishDescription}`
@@ -670,17 +707,18 @@ const deleteNotification = async (req, res) => {
     const { notificationId } = req.params;
 
     // Assuming the notificationId can be either from a kid or a parent notification
-    const result = await kidNotificationModel.findByIdAndDelete(notificationId) ||
-                    await parentNotificationModel.findByIdAndDelete(notificationId);
+    const result =
+      (await kidNotificationModel.findByIdAndDelete(notificationId)) ||
+      (await parentNotificationModel.findByIdAndDelete(notificationId));
 
     if (!result) {
-      return res.status(404).json({ message: 'Notification not found' });
+      return res.status(404).json({ message: "Notification not found" });
     }
 
-    res.status(200).json({ message: 'Notification deleted successfully' });
+    res.status(200).json({ message: "Notification deleted successfully" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: "Server error" });
   }
 };
 
@@ -716,8 +754,10 @@ const countNotifications = async (req, res) => {
     }
 
     // Count unread notifications
-    const unreadCount = notifications.filter(notification => notification.status === 'unread').length;
-    
+    const unreadCount = notifications.filter(
+      (notification) => notification.status === "unread"
+    ).length;
+
     res.status(200).send({ count: unreadCount });
   } catch (e) {
     res.status(500).send({ msg: "An error occurred", e });
@@ -732,22 +772,27 @@ const readNotifications = async (req, res) => {
     let result;
     if (role === "kid") {
       result = await kidNotificationModel.updateMany(
-        { kid: userId, status: 'unread' },
-        { $set: { status: 'read' } }
+        { kid: userId, status: "unread" },
+        { $set: { status: "read" } }
       );
     } else if (role === "parent") {
       result = await parentNotificationModel.updateMany(
-        { parent: userId, status: 'unread' },
-        { $set: { status: 'read' } }
+        { parent: userId, status: "unread" },
+        { $set: { status: "read" } }
       );
     } else {
       return res.status(403).send({ msg: "Unauthorized user" });
     }
 
-    res.status(200).send({ msg: "Notifications marked as read", modifiedCount: result.nModified });
+    res.status(200).send({
+      msg: "Notifications marked as read",
+      modifiedCount: result.nModified,
+    });
   } catch (e) {
     console.error(e);
-    res.status(500).send({ msg: "An error occurred while updating notifications", e });
+    res
+      .status(500)
+      .send({ msg: "An error occurred while updating notifications", e });
   }
 };
 
