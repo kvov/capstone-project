@@ -42,7 +42,6 @@ class ParentWishList extends Component {
       this.setState({
         wishes: result.data.data,
       });
-      console.log("reuslt: " + JSON.stringify(result.data.data));
     } catch (e) {
       console.log("reuslt: " + e.message);
       notification.error({

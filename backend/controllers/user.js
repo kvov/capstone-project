@@ -243,11 +243,6 @@ const saveTask = async (req, res) => {
           dueDate: nextDate.toDate(),
           recurrence,
         });
-
-        await createKidNotification(
-          kid,
-          `Recurring task created for you: ${taskDescription}`
-        );
       }
     }
 
